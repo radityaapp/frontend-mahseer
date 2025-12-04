@@ -3,6 +3,7 @@ import routes from "./routes";
 
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
+import ScrollToTop from "./components/common/ScrollTop";
 
 function AppRoutes() {
   const element = useRoutes(routes);
@@ -18,8 +19,7 @@ export default function App() {
         <AppRoutes />
       </main>
 
-      {/* <Loader />
-      <ErrorState /> */}
+      <ScrollToTop />
 
       <Footer />
     </div>

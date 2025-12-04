@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Fish, Home, ArrowLeft } from "lucide-react";
-import Cookies from "js-cookie";
+import useLocale from "../hooks/useLocale";
 
 export default function NotFoundPage() {
-  const currentLang = Cookies.get("lang") || "id";
+  const { locale } = useLocale();
 
   const t = {
     id: {
@@ -18,7 +18,7 @@ export default function NotFoundPage() {
       back: "Go Back",
       home: "Home",
     },
-  }[currentLang];
+  }[locale];
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#0f1f38] relative overflow-hidden font-plusjakartasans px-4 text-slate-100">

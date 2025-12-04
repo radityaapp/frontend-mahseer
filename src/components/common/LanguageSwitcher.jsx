@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
-import Cookies from "js-cookie";
+import useLocale from "../../hooks/useLocale"; // Import Hook
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(Cookies.get("lang") || "id");
   const dropdownRef = useRef(null);
+
+  const { locale, setLocale } = useLocale();
 
   const languages = [
     {
@@ -21,7 +22,7 @@ export default function LanguageSwitcher() {
   ];
 
   const currentLangData =
-    languages.find((l) => l.code === selectedLang) || languages[0];
+    languages.find((l) => l.code === locale) || languages[0];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -34,12 +35,8 @@ export default function LanguageSwitcher() {
   }, []);
 
   const handleSelect = (code) => {
-    setSelectedLang(code);
+    setLocale(code);
     setIsOpen(false);
-
-    Cookies.set("lang", code, { expires: 365 });
-
-    window.location.reload();
   };
 
   return (
@@ -65,7 +62,7 @@ export default function LanguageSwitcher() {
         </div>
 
         <span className="text-sm font-bold text-sky-900 min-w-[20px] uppercase">
-          {selectedLang}
+          {locale}
         </span>
 
         <ChevronDown
@@ -86,7 +83,7 @@ export default function LanguageSwitcher() {
                 className={`
                   w-full px-4 py-2.5 flex items-center gap-3 text-sm text-left hover:bg-sky-50 transition-colors
                   ${
-                    selectedLang === lang.code
+                    locale === lang.code
                       ? "bg-sky-50/50 text-sky-900 font-semibold"
                       : "text-gray-600"
                   }
@@ -101,7 +98,7 @@ export default function LanguageSwitcher() {
                 </div>
                 <span className="flex-1">{lang.label}</span>
 
-                {selectedLang === lang.code && (
+                {locale === lang.code && (
                   <Check size={14} className="text-sky-600" />
                 )}
               </button>

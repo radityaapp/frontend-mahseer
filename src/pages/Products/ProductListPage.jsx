@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { fetchProducts, fetchCategories } from "../../api/products";
-import Cookies from "js-cookie";
 import ProductCard from "../../components/products/ProductCard";
 import Loader from "../../components/common/Loader";
 import ErrorState from "../../components/common/ErrorState";
+import useLocale from "../../hooks/useLocale";
 
 const FilterSidebar = ({
   categories,
@@ -13,9 +13,9 @@ const FilterSidebar = ({
   activeSort,
   setActiveSort,
 }) => {
-  const currentLang = Cookies.get("lang") || "id";
+  const { locale } = useLocale();
 
-  const translations = {
+  const t = {
     id: {
       titleCategory: "Kategori",
       titlePrice: "Harga",
@@ -30,9 +30,7 @@ const FilterSidebar = ({
       labelLowest: "Lowest Price",
       labelHighest: "Highest Price",
     },
-  };
-
-  const t = translations[currentLang] || translations.id;
+  }[locale];
 
   const categoryList = [{ slug: "semua", name: t.labelAll }, ...categories];
 
@@ -122,9 +120,9 @@ export default function ProductListPage() {
   const [activeCategory, setActiveCategory] = useState("semua");
   const [activeSort, setActiveSort] = useState("");
 
-  const currentLang = Cookies.get("lang") || "id";
+  const { locale } = useLocale();
   const loadingText =
-    currentLang === "en" ? "Preparing Rods..." : "Menyiapkan Joran...";
+    locale === "en" ? "Preparing Rods..." : "Menyiapkan Joran...";
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -164,7 +162,7 @@ export default function ProductListPage() {
     <div className="relative min-h-screen bg-[#0f1f38] font-plusjakartasans overflow-x-hidden">
       <div className="relative z-10 h-[300px] w-screen left-1/2 -translate-x-1/2 bg-slate-900 overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-40 z-10"
+          className="absolute inset-0 bg-cover bg-center z-10"
           style={{
             backgroundImage: "url('/images/background-product.png')",
             opacity: 0.7,
@@ -195,21 +193,21 @@ export default function ProductListPage() {
       </div>
 
       <div
-        className="absolute bottom-0 -left-20 w-[1200px] h-[600px] pointer-events-none z-0 opacity-50"
+        className="absolute top-[250px] -left-[200px] w-[1200px] h-[600px] pointer-events-none z-0 opacity-70"
         style={{
           backgroundImage: "url('/images/ornamen-atas-product.png')",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "bottom left",
+          backgroundPosition: "center left",
           backgroundSize: "contain",
         }}
       ></div>
 
       <div
-        className="absolute top-1/3 right-0 w-[1200px] h-[600px] pointer-events-none z-0 opacity-50"
+        className="absolute top-[400px] -right-[200px] w-[1200px] h-[600px] pointer-events-none z-0 opacity-70"
         style={{
           backgroundImage: "url('/images/ornamen-bawah-product.png')",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "top right",
+          backgroundPosition: "center right",
           backgroundSize: "contain",
         }}
       ></div>
@@ -228,7 +226,6 @@ export default function ProductListPage() {
           <div className="flex-1">
             {loadingProducts ? (
               <div className="min-h-[400px] flex items-center justify-center">
-                {/* 2. Gunakan text dinamis di sini */}
                 <Loader text={loadingText} />
               </div>
             ) : error ? (

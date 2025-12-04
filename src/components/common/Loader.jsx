@@ -1,16 +1,13 @@
 import PropTypes from "prop-types";
 import { Loader2 } from "lucide-react";
-import Cookies from "js-cookie";
+import useLocale from "../../hooks/useLocale";
 
 export default function Loader({ text, fullScreen = false }) {
-  const currentLang = Cookies.get("lang") || "id";
+  const { locale } = useLocale();
 
-  const defaultTitle =
-    currentLang === "en" ? "Loading data..." : "Memuat data...";
+  const defaultTitle = locale === "en" ? "Loading data..." : "Memuat data...";
   const subText =
-    currentLang === "en"
-      ? "Please wait a moment..."
-      : "Mohon tunggu sebentar...";
+    locale === "en" ? "Please wait a moment..." : "Mohon tunggu sebentar...";
 
   const displayText = text || defaultTitle;
 
@@ -36,10 +33,10 @@ export default function Loader({ text, fullScreen = false }) {
         </div>
 
         <div className="flex flex-col items-center text-center">
-          <p className="text-[#0B1A2E] font-bold text-lg tracking-wide animate-pulse">
+          <p className="text-[#0B1A2E] font-bold text-sm tracking-wide animate-pulse">
             {displayText}
           </p>
-          <p className="text-slate-500 text-[14px] font-semibold mt-1">
+          <p className="text-slate-500 text-[10px] font-semibold mt-1">
             {subText}
           </p>
         </div>

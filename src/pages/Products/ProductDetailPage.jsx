@@ -1,36 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MessageCircle, Store, ArrowLeft } from "lucide-react";
-import Cookies from "js-cookie";
 import { getProductDetail } from "../../api/products";
 import ProductCard from "../../components/products/ProductCard";
 import Loader from "../../components/common/Loader";
 import ErrorState from "../../components/common/ErrorState";
-import { DEFAULT_LOCALE, DEFAULT_CURRENCY } from "../../config/appConfig";
 import CurrencySwitcher from "../../components/common/CurrencySwitcher";
 
-function formatPrice(value, currency = "IDR") {
-  if (value == null) return "-";
-
-  if (typeof value === "string" && isNaN(Number(value))) {
-    return value;
-  }
-
-  const number = typeof value === "number" ? value : Number(value);
-
-  try {
-    return new Intl.NumberFormat(currency === "USD" ? "en-US" : "id-ID", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: currency === "USD" ? 2 : 0,
-      maximumFractionDigits: currency === "USD" ? 2 : 0,
-    })
-      .format(number)
-      .replace("Rp", "Rp");
-  } catch {
-    return `${number}`;
-  }
-}
+import useLocale from "../../hooks/useLocale";
+import useCurrency from "../../hooks/useCurrency";
 
 const getImageUrl = (img) => {
   if (!img) return null;
@@ -44,13 +22,41 @@ export default function ProductDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  const currentLang = Cookies.get("lang") || "id";
+  const { locale } = useLocale();
+  const { formatPrice } = useCurrency();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [selectedCurrency, setSelectedCurrency] = useState("IDR");
+
+  const t = {
+    id: {
+      loading: "Menyiapkan detail ikan...",
+      stock: "Stok",
+      generalInfo: "Informasi Umum",
+      noInfo: "Tidak ada informasi umum.",
+      buyWa: "Beli via WhatsApp",
+      buyTokped: "Beli via Tokopedia",
+      descTitle: "Deskripsi Produk",
+      noDesc: "Belum ada deskripsi.",
+      relatedTitle: "Produk lain yang mungkin Anda suka",
+    },
+    en: {
+      loading: "Preparing fish details...",
+      stock: "Stock",
+      generalInfo: "General Information",
+      noInfo: "No general information available.",
+      buyWa: "Buy Now via WhatsApp",
+      buyTokped: "Buy Now via Tokopedia",
+      descTitle: "Product Description",
+      noDesc: "No description available.",
+      relatedTitle: "Other products you might like",
+    },
+  }[locale];
 
   useEffect(() => {
     if (!slug) return;
@@ -63,16 +69,17 @@ export default function ProductDetailPage() {
       setMainImageIndex(0);
 
       try {
-        const res = await getProductDetail(slug, {
-          lang: DEFAULT_LOCALE,
-          currency: DEFAULT_CURRENCY,
-        });
+        const res = await getProductDetail(slug);
 
         const productData = res?.data ?? null;
         const relatedData = res?.related?.data ?? res?.related ?? [];
 
         setProduct(productData);
         setRelated(Array.isArray(relatedData) ? relatedData : []);
+
+        if (productData) {
+          setSelectedCurrency(productData.display_currency || "IDR");
+        }
       } catch (err) {
         console.error("Error load product detail:", err);
         setError("Gagal memuat detail produk. Silakan coba lagi.");
@@ -85,12 +92,7 @@ export default function ProductDetailPage() {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  const loadingText =
-    currentLang === "en"
-      ? "Preparing fish details..."
-      : "Menyiapkan detail ikan...";
-
-  if (loading) return <Loader fullScreen text={loadingText} />;
+  if (loading) return <Loader fullScreen text={t.loading} />;
 
   if (error || !product) {
     return (
@@ -102,20 +104,16 @@ export default function ProductDetailPage() {
   }
 
   const images = product.images ?? product.media ?? product.photos ?? [];
-
   const currentImageRaw = images[mainImageIndex];
   const mainImage = getImageUrl(currentImageRaw) || product.image_cover || null;
 
-  const displayCurrency = product.display_currency || DEFAULT_CURRENCY;
+  const currentPriceValue =
+    product.prices?.[selectedCurrency] ?? product.display_price ?? 0;
 
-  const displayPrice =
-    product.display_price_label ??
-    product.display_price ??
-    product.price_base ??
-    product.price ??
-    0;
-
-  const formattedPrice = formatPrice(displayPrice, displayCurrency);
+  const displayPriceFormatted = formatPrice(
+    currentPriceValue,
+    selectedCurrency
+  );
 
   const whatsappUrl =
     product.whatsapp_url || product.buy_links?.whatsapp || null;
@@ -216,88 +214,95 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          <div className="flex flex-col pt-2">
+          <div className="flex flex-col pt-2 h-full">
             <h1 className="text-4xl font-bold text-[#0B1A2E] mb-2 leading-tight">
               {product.name}
             </h1>
 
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <span className="text-3xl font-bold text-[#0B1A2E]">
-                {formattedPrice}
+                {displayPriceFormatted}
               </span>
-              <CurrencySwitcher prices={product.prices} />
+
+              <CurrencySwitcher
+                prices={product.prices}
+                currentCurrency={selectedCurrency}
+                onCurrencyChange={setSelectedCurrency}
+              />
             </div>
 
             <div className="mb-8">
-              <span className="inline-block bg-[#0B1A2E] text-white text-base font-bold px-3 py-1.5 rounded">
-                Stock: {product.stock ?? "-"}
+              <span className="inline-block bg-[#0B1A2E] text-white text-lg font-bold px-3 py-1.5 rounded">
+                {t.stock}: {product.stock ?? "-"}
               </span>
             </div>
 
-            <div className="mb-8 bg-sky-50/50 p-0 rounded-xl">
-              <h3 className="text-2xl font-bold text-[#0B1A2E] mb-2">
-                General Information
-              </h3>
-              <p className="text-slate-600 text-base font-semibold leading-relaxed">
-                {product.general_information || "Tidak ada informasi umum."}
-              </p>
-            </div>
+            <div className="mt-auto pt-10">
+              <div className="mb-8 bg-sky-50/50 p-0 rounded-xl relative z-10">
+                <h3 className="text-2xl font-bold text-[#0B1A2E] mb-2">
+                  {t.generalInfo}
+                </h3>
+                <p className="text-slate-600 text-base font-semibold leading-relaxed">
+                  {product.general_information || t.noInfo}
+                </p>
+              </div>
 
-            <div className="space-y-4 mt-auto">
-              {whatsappUrl && (
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-3 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-sm font-bold py-4 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                >
-                  <div className="p-1 border-2 border-[#0B1A2E] rounded-full">
-                    <MessageCircle
-                      size={16}
-                      className="text-[#0B1A2E]"
-                      fill="transparent"
-                      strokeWidth={2.5}
-                    />
-                  </div>
-                  Buy Now via WhatsApp
-                </a>
-              )}
+              <div className="space-y-4">
+                {whatsappUrl && (
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full flex items-center justify-center gap-4 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-5 rounded-2xl transition-all shadow-md hover:shadow-lg hover:-translate-y-1"
+                  >
+                    <div className="w-9 h-9 flex items-center justify-center border-[2.5px] border-[#0B1A2E] rounded-full">
+                      <MessageCircle
+                        size={20}
+                        className="text-[#0B1A2E]"
+                        fill="transparent"
+                        strokeWidth={2.8}
+                      />
+                    </div>
+                    <span className="tracking-wide">{t.buyWa}</span>
+                  </a>
+                )}
 
-              {tokopediaUrl && (
-                <a
-                  href={tokopediaUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-3 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-sm font-bold py-4 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                >
-                  <div className="p-1 border-2 border-[#0B1A2E] rounded-full">
-                    <Store
-                      size={16}
-                      className="text-[#0B1A2E]"
-                      strokeWidth={2.5}
-                    />
-                  </div>
-                  Buy Now via Tokopedia
-                </a>
-              )}
+                {tokopediaUrl && (
+                  <a
+                    href={tokopediaUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full flex items-center justify-center gap-4 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-5 rounded-2xl transition-all shadow-md hover:shadow-lg hover:-translate-y-1"
+                  >
+                    <div className="w-9 h-9 flex items-center justify-center border-[2.5px] border-[#0B1A2E] rounded-full">
+                      <Store
+                        size={20}
+                        className="text-[#0B1A2E]"
+                        strokeWidth={2.5}
+                      />
+                    </div>
+                    <span className="tracking-wide">{t.buyTokped}</span>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-[#0B1A2E] mb-4">
-            Product Description
+            {t.descTitle}
           </h2>
           <div className="bg-sky-50/80 rounded-2xl">
             <p className="text-slate-600 text-base font-semibold leading-loose text-justify whitespace-pre-line">
-              {product.description || "Belum ada deskripsi."}
+              {product.description || t.noDesc}
             </p>
           </div>
         </div>
 
         <div>
           <h2 className="text-2xl font-bold text-[#0B1A2E] mb-6">
-            Other products you might like
+            {t.relatedTitle}
           </h2>
 
           {related.length > 0 ? (

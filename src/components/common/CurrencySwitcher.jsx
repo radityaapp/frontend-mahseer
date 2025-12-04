@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 
-export default function CurrencySwitcher({ prices = {} }) {
+export default function CurrencySwitcher({
+  prices = {},
+  currentCurrency,
+  onCurrencyChange,
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState(null);
   const dropdownRef = useRef(null);
 
-  const currencyOptions = Object.entries(prices).map(([code, value]) => ({
-    code,
-    value,
-  }));
+  const availableCurrencies = Object.keys(prices);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -22,40 +22,20 @@ export default function CurrencySwitcher({ prices = {} }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSelect = (option) => {
-    setSelectedCurrency(option);
+  const handleSelect = (code) => {
+    onCurrencyChange(code);
     setIsOpen(false);
   };
 
-  const formatValue = (code, value) => {
-    if (code === "IDR") {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-      }).format(value);
-    } else if (code === "USD") {
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(value);
-    }
-    return `${code} ${value}`;
-  };
-
   return (
-    <div className="relative font-plusjakartasans" ref={dropdownRef}>
+    <div className="relative font-plusjakartasans z-20" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 bg-[#D9D046] px-6 py-1.5 rounded-md text-xl font-bold text-slate-900 hover:bg-[#c9c03a] transition-colors shadow-sm"
+        className="flex items-center gap-1 bg-[#D9D046] px-3 py-1.5 rounded-md text-base font-bold text-slate-900 hover:bg-[#c9c03a] transition-colors shadow-sm"
       >
-        <span>
-          {selectedCurrency
-            ? formatValue(selectedCurrency.code, selectedCurrency.value)
-            : "Convert to.."}
-        </span>
+        <span>Convert to..</span>
         <ChevronDown
-          size={14}
+          size={20}
           className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
@@ -63,21 +43,30 @@ export default function CurrencySwitcher({ prices = {} }) {
       {isOpen && (
         <div className="absolute left-0 mt-2 w-32 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           <div className="py-1">
-            <button
-              onClick={() => handleSelect(null)}
-              className="w-full text-left px-4 py-2 text-xs hover:bg-sky-50 text-slate-600 font-medium border-b border-gray-100"
-            >
-              Reset
-            </button>
-            {currencyOptions.map((option) => (
-              <button
-                key={option.code}
-                onClick={() => handleSelect(option)}
-                className="w-full text-left px-4 py-2 text-xs hover:bg-sky-50 text-slate-700 hover:text-[#0B1A2E] transition-colors flex justify-between"
-              >
-                <span className="font-bold">{option.code}</span>
-              </button>
-            ))}
+            {availableCurrencies.length > 0 ? (
+              availableCurrencies.map((code) => (
+                <button
+                  key={code}
+                  onClick={() => handleSelect(code)}
+                  className={`w-full text-left px-4 py-2 text-xs transition-colors flex justify-between items-center
+                    ${
+                      currentCurrency === code
+                        ? "bg-sky-50 text-[#0B1A2E] font-bold"
+                        : "text-slate-600 hover:bg-gray-50 hover:text-[#0B1A2E]"
+                    }
+                  `}
+                >
+                  <span>{code}</span>
+                  {currentCurrency === code && (
+                    <Check size={12} className="text-[#0B1A2E]" />
+                  )}
+                </button>
+              ))
+            ) : (
+              <div className="px-4 py-2 text-xs text-slate-400 italic">
+                No options
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -87,4 +76,6 @@ export default function CurrencySwitcher({ prices = {} }) {
 
 CurrencySwitcher.propTypes = {
   prices: PropTypes.object,
+  currentCurrency: PropTypes.string,
+  onCurrencyChange: PropTypes.func,
 };
