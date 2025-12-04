@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
-import useLocale from "../../hooks/useLocale"; // Import Hook
+import useLocale from "../../hooks/useLocale";
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
