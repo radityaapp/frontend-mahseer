@@ -1,19 +1,20 @@
-import './index.css'
-import Routess from './routes';
-import ScrollToTop from './ScrollToTop';
-import { BrowserRouter, useRoutes } from "react-router-dom";
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import App from "./app";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const rootElement = document.getElementById("root");
 
-function AppRoutes() {
-  const element = useRoutes(Routess);
-  return element;
+if (!rootElement) {
+  throw new Error("Root element #root tidak ditemukan di index.html");
 }
 
+const root = ReactDOM.createRoot(rootElement);
 root.render(
- <BrowserRouter>
- <ScrollToTop/>
- <AppRoutes/>
- </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
