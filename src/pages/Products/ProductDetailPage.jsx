@@ -23,15 +23,13 @@ export default function ProductDetailPage() {
   const navigate = useNavigate();
 
   const { locale } = useLocale();
-  const { formatPrice } = useCurrency();
+  const { currency, setCurrency, formatPrice } = useCurrency();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const [selectedCurrency, setSelectedCurrency] = useState("IDR");
 
   const t = {
     id: {
@@ -69,17 +67,16 @@ export default function ProductDetailPage() {
       setMainImageIndex(0);
 
       try {
-        const res = await getProductDetail(slug);
+        const res = await getProductDetail(slug, {
+          lang: locale,
+          currency: currency,
+        });
 
         const productData = res?.data ?? null;
         const relatedData = res?.related?.data ?? res?.related ?? [];
 
         setProduct(productData);
         setRelated(Array.isArray(relatedData) ? relatedData : []);
-
-        if (productData) {
-          setSelectedCurrency(productData.display_currency || "IDR");
-        }
       } catch (err) {
         console.error("Error load product detail:", err);
         setError("Gagal memuat detail produk. Silakan coba lagi.");
@@ -90,7 +87,7 @@ export default function ProductDetailPage() {
 
     fetchDetail();
     window.scrollTo(0, 0);
-  }, [slug]);
+  }, [slug, currency, locale]);
 
   if (loading) return <Loader fullScreen text={t.loading} />;
 
@@ -108,12 +105,9 @@ export default function ProductDetailPage() {
   const mainImage = getImageUrl(currentImageRaw) || product.image_cover || null;
 
   const currentPriceValue =
-    product.prices?.[selectedCurrency] ?? product.display_price ?? 0;
+    product.prices?.[currency] ?? product.display_price ?? 0;
 
-  const displayPriceFormatted = formatPrice(
-    currentPriceValue,
-    selectedCurrency
-  );
+  const formattedPrice = formatPrice(currentPriceValue, currency);
 
   const whatsappUrl =
     product.whatsapp_url || product.buy_links?.whatsapp || null;
@@ -121,7 +115,7 @@ export default function ProductDetailPage() {
     product.tokopedia_url || product.buy_links?.tokopedia || null;
 
   return (
-    <div className="min-h-screen bg-sky-50 font-plusjakartasans pb-20 relative overflow-hidden">
+    <div className="min-h-screen bg-sky-50 font-plusjakartasans pb-20 pt-14 relative overflow-hidden">
       <div
         className="absolute top-0 right-0 w-[1200px] h-[600px] pointer-events-none z-0 opacity-40"
         style={{
@@ -221,28 +215,28 @@ export default function ProductDetailPage() {
 
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <span className="text-3xl font-bold text-[#0B1A2E]">
-                {displayPriceFormatted}
+                {formattedPrice}
               </span>
 
               <CurrencySwitcher
                 prices={product.prices}
-                currentCurrency={selectedCurrency}
-                onCurrencyChange={setSelectedCurrency}
+                currentCurrency={currency}
+                onCurrencyChange={setCurrency}
               />
             </div>
 
             <div className="mb-8">
-              <span className="inline-block bg-[#0B1A2E] text-white text-lg font-bold px-3 py-1.5 rounded">
+              <span className="inline-block bg-[#0B1A2E] text-white text-xs font-bold px-3 py-1.5 rounded">
                 {t.stock}: {product.stock ?? "-"}
               </span>
             </div>
 
             <div className="mt-auto pt-10">
               <div className="mb-8 bg-sky-50/50 p-0 rounded-xl relative z-10">
-                <h3 className="text-2xl font-bold text-[#0B1A2E] mb-2">
+                <h3 className="text-base font-bold text-[#0B1A2E] mb-2">
                   {t.generalInfo}
                 </h3>
-                <p className="text-slate-600 text-base font-semibold leading-relaxed">
+                <p className="text-slate-600 text-sm leading-relaxed">
                   {product.general_information || t.noInfo}
                 </p>
               </div>
@@ -290,11 +284,11 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-[#0B1A2E] mb-4">
+          <h2 className="text-xl font-bold text-[#0B1A2E] mb-4">
             {t.descTitle}
           </h2>
           <div className="bg-sky-50/80 rounded-2xl">
-            <p className="text-slate-600 text-base font-semibold leading-loose text-justify whitespace-pre-line">
+            <p className="text-slate-600 text-sm leading-loose text-justify whitespace-pre-line">
               {product.description || t.noDesc}
             </p>
           </div>

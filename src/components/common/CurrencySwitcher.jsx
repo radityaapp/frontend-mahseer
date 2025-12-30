@@ -23,7 +23,9 @@ export default function CurrencySwitcher({
   }, []);
 
   const handleSelect = (code) => {
-    onCurrencyChange(code);
+    if (onCurrencyChange) {
+      onCurrencyChange(code);
+    }
     setIsOpen(false);
   };
 
@@ -31,11 +33,15 @@ export default function CurrencySwitcher({
     <div className="relative font-plusjakartasans z-20" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 bg-[#D9D046] px-3 py-1.5 rounded-md text-base font-bold text-slate-900 hover:bg-[#c9c03a] transition-colors shadow-sm"
+        className="flex items-center gap-1 bg-[#D9D046] px-3 py-1.5 rounded-md text-sm font-bold text-slate-900 hover:bg-[#c9c03a] transition-colors shadow-sm"
       >
-        <span>Convert to..</span>
+        <span>
+          {currentCurrency && currentCurrency !== "IDR"
+            ? `Currency: ${currentCurrency}`
+            : "Convert to.."}
+        </span>
         <ChevronDown
-          size={20}
+          size={14}
           className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
@@ -43,8 +49,25 @@ export default function CurrencySwitcher({
       {isOpen && (
         <div className="absolute left-0 mt-2 w-32 bg-white rounded-lg shadow-xl border border-gray-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           <div className="py-1">
-            {availableCurrencies.length > 0 ? (
-              availableCurrencies.map((code) => (
+            <button
+              onClick={() => handleSelect("IDR")}
+              className={`w-full text-left px-4 py-2 text-xs transition-colors flex justify-between items-center
+                ${
+                  currentCurrency === "IDR"
+                    ? "bg-sky-50 text-[#0B1A2E] font-bold"
+                    : "text-slate-600 hover:bg-gray-50 hover:text-[#0B1A2E]"
+                }
+              `}
+            >
+              <span>IDR</span>
+              {currentCurrency === "IDR" && (
+                <Check size={12} className="text-[#0B1A2E]" />
+              )}
+            </button>
+
+            {availableCurrencies.map((code) => {
+              if (code === "IDR") return null;
+              return (
                 <button
                   key={code}
                   onClick={() => handleSelect(code)}
@@ -61,8 +84,10 @@ export default function CurrencySwitcher({
                     <Check size={12} className="text-[#0B1A2E]" />
                   )}
                 </button>
-              ))
-            ) : (
+              );
+            })}
+
+            {availableCurrencies.length === 0 && (
               <div className="px-4 py-2 text-xs text-slate-400 italic">
                 No options
               </div>

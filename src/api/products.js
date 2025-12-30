@@ -11,16 +11,24 @@ export async function fetchProducts(options = {}) {
       max_price: options.max_price,
       page: options.page,
       per_page: options.per_page,
+      currency: options.currency,
+      lang: options.lang,
     },
   });
 
   return response.data;
 }
 
-export async function fetchCategories() {
-  const response = await apiClient.get(API_ROUTES.CATEGORIES);
+export async function fetchCategories(options = {}) {
+  const response = await apiClient.get(API_ROUTES.CATEGORIES, {
+    params: {
+      type: options.type,
+      lang: options.lang,
+    },
+  });
   return response.data;
 }
+
 
 export async function getProductDetail(slug, params = {}) {
   const response = await apiClient.get(API_ROUTES.PRODUCT_DETAIL(slug), { params });

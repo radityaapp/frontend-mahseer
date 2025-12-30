@@ -5,6 +5,7 @@ import ProductCard from "../../components/products/ProductCard";
 import Loader from "../../components/common/Loader";
 import ErrorState from "../../components/common/ErrorState";
 import useLocale from "../../hooks/useLocale";
+import { Filter, ChevronDown, X } from "lucide-react";
 
 const FilterSidebar = ({
   categories,
@@ -13,10 +14,13 @@ const FilterSidebar = ({
   activeSort,
   setActiveSort,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { locale } = useLocale();
 
-  const t = {
+  const translations = {
     id: {
+      filterBtn: "Filter & Urutkan",
+      closeBtn: "Tutup Filter",
       titleCategory: "Kategori",
       titlePrice: "Harga",
       labelAll: "Semua",
@@ -24,79 +28,114 @@ const FilterSidebar = ({
       labelHighest: "Termahal",
     },
     en: {
+      filterBtn: "Filter & Sort",
+      closeBtn: "Close Filter",
       titleCategory: "Category",
       titlePrice: "Price",
       labelAll: "All",
       labelLowest: "Lowest Price",
       labelHighest: "Highest Price",
     },
-  }[locale];
+  };
 
+  const t = translations[locale] || translations.id;
   const categoryList = [{ slug: "semua", name: t.labelAll }, ...categories];
 
   return (
-    <aside className="w-full md:w-64 flex-shrink-0 mb-8 md:mb-0 font-plusjakartasans">
-      <div className="mb-10">
-        <h3 className="text-[#D9D046] font-bold text-lg mb-6 tracking-wide">
-          {t.titleCategory}
-        </h3>
-
-        {categories.length === 0 ? (
-          <div className="space-y-4 animate-pulse">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-4 bg-sky-800/30 rounded w-3/4"></div>
-            ))}
+    <aside className="w-full md:w-64 flex-shrink-0 mb-8 md:mb-0 font-plusjakartasans z-20 relative">
+      <div className="md:hidden mb-4">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between px-5 py-3 bg-[#152744] border border-sky-800/50 rounded-xl text-sky-100 font-bold transition-all active:scale-98"
+        >
+          <div className="flex items-center gap-2">
+            <Filter size={18} className="text-[#D9D046]" />
+            <span>{isOpen ? t.closeBtn : t.filterBtn}</span>
           </div>
-        ) : (
-          <ul className="space-y-4">
-            {categoryList.map((cat) => (
-              <li key={cat.slug || cat.id}>
-                <button
-                  onClick={() => setActiveCategory(cat.slug)}
-                  className={`text-[15px] text-left transition-all duration-200 w-full block ${
-                    activeCategory === cat.slug
-                      ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
-                      : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
-                  }`}
-                >
-                  {cat.name}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+          {isOpen ? (
+            <X size={18} className="text-sky-400" />
+          ) : (
+            <ChevronDown size={18} className="text-sky-400" />
+          )}
+        </button>
       </div>
 
-      <div>
-        <h3 className="text-[#D9D046] font-bold text-lg mb-6 tracking-wide">
-          {t.titlePrice}
-        </h3>
-        <ul className="space-y-4">
-          <li>
-            <button
-              onClick={() => setActiveSort("termurah")}
-              className={`text-[15px] text-left transition-all duration-200 w-full block ${
-                activeSort === "termurah"
-                  ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
-                  : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
-              }`}
-            >
-              {t.labelLowest}
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveSort("termahal")}
-              className={`text-[15px] text-left transition-all duration-200 w-full block ${
-                activeSort === "termahal"
-                  ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
-                  : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
-              }`}
-            >
-              {t.labelHighest}
-            </button>
-          </li>
-        </ul>
+      <div
+        className={`${
+          isOpen ? "block" : "hidden"
+        } md:block bg-[#152744] md:bg-transparent p-5 md:p-0 rounded-2xl md:rounded-none border border-sky-800/50 md:border-none shadow-xl md:shadow-none transition-all`}
+      >
+        <div className="mb-8">
+          <h3 className="text-[#D9D046] font-bold text-lg mb-4 md:mb-6 tracking-wide border-b border-[#D9D046]/20 pb-2 md:border-none md:pb-0">
+            {t.titleCategory}
+          </h3>
+
+          {categories.length === 0 ? (
+            <div className="space-y-4 animate-pulse">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-4 bg-sky-800/30 rounded w-3/4"></div>
+              ))}
+            </div>
+          ) : (
+            <ul className="space-y-2 md:space-y-4">
+              {categoryList.map((cat) => (
+                <li key={cat.slug || cat.id}>
+                  <button
+                    onClick={() => {
+                      setActiveCategory(cat.slug);
+                      setIsOpen(false);
+                    }}
+                    className={`text-[15px] text-left transition-all duration-200 w-full block py-1 md:py-0 ${
+                      activeCategory === cat.slug
+                        ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
+                        : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div>
+          <h3 className="text-[#D9D046] font-bold text-lg mb-4 md:mb-6 tracking-wide border-b border-[#D9D046]/20 pb-2 md:border-none md:pb-0">
+            {t.titlePrice}
+          </h3>
+          <ul className="space-y-2 md:space-y-4">
+            <li>
+              <button
+                onClick={() => {
+                  setActiveSort("termurah");
+                  setIsOpen(false);
+                }}
+                className={`text-[15px] text-left transition-all duration-200 w-full block py-1 md:py-0 ${
+                  activeSort === "termurah"
+                    ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
+                    : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
+                }`}
+              >
+                {t.labelLowest}
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setActiveSort("termahal");
+                  setIsOpen(false);
+                }}
+                className={`text-[15px] text-left transition-all duration-200 w-full block py-1 md:py-0 ${
+                  activeSort === "termahal"
+                    ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
+                    : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
+                }`}
+              >
+                {t.labelHighest}
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </aside>
   );
@@ -160,9 +199,9 @@ export default function ProductListPage() {
 
   return (
     <div className="relative min-h-screen bg-[#0f1f38] font-plusjakartasans overflow-x-hidden">
-      <div className="relative z-10 h-[300px] w-screen left-1/2 -translate-x-1/2 bg-slate-900 overflow-hidden">
+      <div className="relative z-10 h-[300px] w-full bg-slate-900 overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center z-10"
+          className="absolute inset-0 bg-cover bg-center opacity-40 z-10"
           style={{
             backgroundImage: "url('/images/background-product.png')",
             opacity: 0.7,
@@ -193,9 +232,9 @@ export default function ProductListPage() {
       </div>
 
       <div
-        className="absolute top-[250px] -left-[200px] w-[1200px] h-[600px] pointer-events-none z-0 opacity-70"
+        className="absolute bottom-0 -left-[150px] md:-left-[350px] w-[600px] h-[350px] md:w-[1200px] md:h-[700px] pointer-events-none z-0 opacity-50"
         style={{
-          backgroundImage: "url('/images/ornamen-atas-product.png')",
+          backgroundImage: "url('/images/ornamen-bawah-product.png')",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center left",
           backgroundSize: "contain",
@@ -203,7 +242,7 @@ export default function ProductListPage() {
       ></div>
 
       <div
-        className="absolute top-[400px] -right-[200px] w-[1200px] h-[600px] pointer-events-none z-0 opacity-70"
+        className="absolute top-0 -right-[150px] md:-right-[300px] w-[600px] h-[350px] md:w-[1200px] md:h-[700px] pointer-events-none z-0 opacity-50"
         style={{
           backgroundImage: "url('/images/ornamen-bawah-product.png')",
           backgroundRepeat: "no-repeat",
@@ -237,7 +276,7 @@ export default function ProductListPage() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

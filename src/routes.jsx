@@ -1,22 +1,41 @@
-import ProductListPage from "./pages/Products/ProductListPage.jsx";
-import NotFoundPage from "./pages/NotFoundPage.jsx";
-import ProductDetailPage from "./pages/Products/ProductDetailPage.jsx";
+import MainLayout from "./layouts/MainLayout";
+import ProductListPage from "./pages/Products/ProductListPage";
+import ProductDetailPage from "./pages/Products/ProductDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./pages/Home/HomePage";
 
-const Routess = [
+const routes = [
   {
-    path: "/products",
-    element: <ProductListPage />,
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "products",
+        element: <ProductListPage />,
+      },
+      {
+        path: "products/:slug",
+        element: <ProductDetailPage />,
+      },
+      {
+        path: "about",
+        element: <div className="p-20 text-center">Halaman About Us</div>,
+      },
+      {
+        path: "articles",
+        element: <div className="p-20 text-center">Halaman Artikel</div>,
+      },
+    ],
   },
 
   {
     path: "*",
     element: <NotFoundPage />,
   },
-
-  {
-    path: "/products/:slug",
-    element: <ProductDetailPage />,
-  },
 ];
 
-export default Routess;
+export default routes;

@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { DEFAULT_CURRENCY } from "../config/appConfig";
+
+const currencyChangeEvent = new Event("currencyChange");
 
 export default function useCurrency() {
   const [currency, setCurrencyState] = useState(
     Cookies.get("currency") || DEFAULT_CURRENCY
   );
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setCurrencyState(Cookies.get("currency") || DEFAULT_CURRENCY);
+    };
+
+    window.addEventListener("currencyChange", handleStorageChange);
+    return () =>
+      window.removeEventListener("currencyChange", handleStorageChange);
+  }, []);
+
   const setCurrency = (code) => {
     Cookies.set("currency", code, { expires: 365 });
     setCurrencyState(code);
-    window.location.reload();
+
+    window.dispatchEvent(currencyChangeEvent);
+
   };
 
   const formatPrice = (value, specificCurrency = null) => {
@@ -37,8 +51,8 @@ export default function useCurrency() {
       })
         .format(number)
         .replace("Rp", "Rp");
-    } catch (err) {
-      console.error(err);
+    } catch (_err) {
+      console.error("An error occurred:", _err);
       return `${number}`;
     }
   };
