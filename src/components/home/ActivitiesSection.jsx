@@ -49,7 +49,7 @@ export default function ActivitiesSection({ activities = [] }) {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h2 className="text-center text-2xl md:text-4xl font-bold text-[#D9D046] mb-12 tracking-wide">
+        <h2 className="text-center text-2xl md:text-4xl font-bold text-hijau-lime mb-12 tracking-wide">
           {title}
         </h2>
 

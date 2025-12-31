@@ -39,7 +39,7 @@ export default function BannerHero() {
         <div className="max-w-2xl text-white">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
             {t.title1} <br />
-            <span className="text-[#D9D046]">{t.title2}</span> <br />
+            <span className="text-hijau-lime">{t.title2}</span> <br />
             {t.title3}
           </h1>
           <p className="text-sky-100 text-sm md:text-lg leading-relaxed mb-8 max-w-lg">
@@ -47,7 +47,7 @@ export default function BannerHero() {
           </p>
           <button
             onClick={() => navigate("/about")}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] font-bold rounded-full transition-all shadow-lg hover:-translate-y-1"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-hijau-lime hover:bg-[#B8CA06] text-[#0B1A2E] font-bold rounded-full transition-all shadow-lg hover:-translate-y-1"
           >
             {t.btn}
             <ArrowRight size={18} />
