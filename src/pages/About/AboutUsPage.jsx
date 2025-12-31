@@ -93,9 +93,8 @@ export default function AboutUsPage() {
             <p className="text-justify text-slate-300 leading-relaxed">
                 Exotic Mahseer berdiri di atas nilai-nilai keaslian, kualitas, dan tanggung jawab terhadap lingkungan. Kami percaya bahwa pelestarian ikan Mahseer harus berjalan seiring dengan pengembangan bisnis. Karena itu, setiap proses budidaya dilakukan secara berkelanjutan dan ramah lingkungan. Kami juga bekerja sama dengan komunitas lokal dan pihak konservasi untuk menjaga kelestarian Mahseer, agar ikan langka ini tetap bisa dinikmati oleh generasi mendatang.            </p>
           </div>
-
-          <img src="/images/aboutus-img-3.png" className="w-full rounded-l" />
           
+          <img src="/images/aboutus-img-3.png" className="w-full rounded-l" />
         </section>
 
         <section className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-10 mb-24">
