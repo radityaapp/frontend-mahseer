@@ -44,7 +44,7 @@ export default function LanguageSwitcher() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-full 
+          flex items-center gap-2 px-3 py-2 md:py-1.5 rounded-full 
           border transition-all duration-200 group
           ${
             isOpen
@@ -81,7 +81,7 @@ export default function LanguageSwitcher() {
                 key={lang.code}
                 onClick={() => handleSelect(lang.code)}
                 className={`
-                  w-full px-4 py-2.5 flex items-center gap-3 text-sm text-left hover:bg-sky-50 transition-colors
+                  w-full px-4 py-3 md:py-2.5 flex items-center gap-3 text-sm text-left hover:bg-sky-50 transition-colors
                   ${
                     locale === lang.code
                       ? "bg-sky-50/50 text-sky-900 font-semibold"

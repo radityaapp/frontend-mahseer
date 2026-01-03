@@ -33,7 +33,7 @@ export default function CurrencySwitcher({
     <div className="relative font-plusjakartasans z-20" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 bg-[#D9D046] px-3 py-1.5 rounded-md text-sm font-bold text-slate-900 hover:bg-[#c9c03a] transition-colors shadow-sm"
+        className="flex items-center gap-1.5 bg-[#D9D046] px-3.5 py-2 md:py-1.5 rounded-md text-sm font-bold text-slate-900 hover:bg-[#c9c03a] transition-all shadow-sm active:scale-95"
       >
         <span>
           {currentCurrency && currentCurrency !== "IDR"
@@ -42,7 +42,9 @@ export default function CurrencySwitcher({
         </span>
         <ChevronDown
           size={14}
-          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
         />
       </button>
 
@@ -51,7 +53,7 @@ export default function CurrencySwitcher({
           <div className="py-1">
             <button
               onClick={() => handleSelect("IDR")}
-              className={`w-full text-left px-4 py-2 text-xs transition-colors flex justify-between items-center
+              className={`w-full text-left px-4 py-2.5 md:py-2 text-xs transition-colors flex justify-between items-center
                 ${
                   currentCurrency === "IDR"
                     ? "bg-sky-50 text-[#0B1A2E] font-bold"
@@ -61,7 +63,7 @@ export default function CurrencySwitcher({
             >
               <span>IDR</span>
               {currentCurrency === "IDR" && (
-                <Check size={12} className="text-[#0B1A2E]" />
+                <Check size={14} className="text-[#0B1A2E]" />
               )}
             </button>
 
@@ -71,7 +73,7 @@ export default function CurrencySwitcher({
                 <button
                   key={code}
                   onClick={() => handleSelect(code)}
-                  className={`w-full text-left px-4 py-2 text-xs transition-colors flex justify-between items-center
+                  className={`w-full text-left px-4 py-2.5 md:py-2 text-xs transition-colors flex justify-between items-center
                     ${
                       currentCurrency === code
                         ? "bg-sky-50 text-[#0B1A2E] font-bold"
@@ -81,7 +83,7 @@ export default function CurrencySwitcher({
                 >
                   <span>{code}</span>
                   {currentCurrency === code && (
-                    <Check size={12} className="text-[#0B1A2E]" />
+                    <Check size={14} className="text-[#0B1A2E]" />
                   )}
                 </button>
               );

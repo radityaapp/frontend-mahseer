@@ -59,36 +59,36 @@ export default function Navbar() {
   ];
 
   const linkBase =
-    "text-sm md:text-[18px] font-semibold px-4 py-2 rounded-full transition-colors font-plusjakartasans";
-  const linkActive = "text-sky-900 font-bold bg-sky-100/50";
-  const linkInactiveDark = "text-sky-700 hover:text-sky-900 hover:bg-sky-50/50";
-  const linkInactiveLight = "text-sky-100 hover:text-white hover:bg-white/10";
+    "text-sm md:text-base lg:text-[17px] font-bold px-4 py-2 rounded-full transition-all duration-300 font-plusjakartasans whitespace-nowrap";
+  const linkActive = "text-sky-900 bg-sky-100/80 shadow-sm";
+  const linkInactiveDark = "text-sky-800 hover:text-sky-900 hover:bg-sky-50/50";
+  const linkInactiveLight = "text-sky-50 hover:text-white hover:bg-white/10";
 
   const isNavbarSolid = !isHomePage || isScrolled;
 
   return (
     <>
       <header
-        className={`fixed top-0 z-40 w-full transition-all duration-300 ease-in-out h-16 flex items-center
+        className={`fixed top-0 z-40 w-full transition-all duration-300 ease-in-out flex items-center
           ${
             isNavbarSolid
-              ? "bg-gradient-to-r from-sky-100 to-sky-200/95 backdrop-blur border-b border-sky-200 shadow-md"
-              : "bg-transparent border-transparent shadow-none"
+              ? "bg-gradient-to-r from-sky-100 via-sky-100 to-sky-200/95 backdrop-blur-md border-b border-sky-200 shadow-sm h-16 md:h-20"
+              : "bg-transparent border-transparent shadow-none h-16 md:h-24"
           }
         `}
       >
-        {/* GUNAKAN JUSTIFY-BETWEEN DISINI SEPERTI REFERENSI PSN */}
-        <nav className="max-w-7xl mx-auto px-4 w-full flex items-center justify-between">
-          {/* KIRI: LOGO (Tanpa margin aneh-aneh) */}
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
           <Link
             to="/"
-            className="flex items-center gap-2 shrink-0"
+            className="flex items-center gap-2 shrink-0 z-50"
             onClick={closeMenu}
           >
             <img
               src="/images/logo-mahseer.png"
               alt="Exotic Mahseer Logo"
-              className="h-14 w-auto object-contain"
+              className={`w-auto object-contain transition-all duration-300 ${
+                isNavbarSolid ? "h-10 md:h-12" : "h-11 md:h-14"
+              }`}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.style.display = "none";
@@ -96,10 +96,8 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* KANAN: GROUP MENU & TOMBOL */}
-          <div className="flex items-center gap-6">
-            {/* Menu Desktop */}
-            <div className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-3 md:gap-6">
+            <div className="hidden md:flex items-center gap-1 lg:gap-2">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
@@ -119,32 +117,30 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Language Switcher & Mobile Button */}
-            <div className="flex items-center gap-3">
-              <div className="scale-90">
+            <div className="flex items-center gap-3 pl-2 md:pl-4 border-l border-transparent md:border-sky-200/30">
+              <div className="scale-90 md:scale-100">
                 <LanguageSwitcher />
               </div>
 
               <button
                 type="button"
                 onClick={toggleMenu}
-                className={`md:hidden inline-flex items-center justify-center rounded-lg p-2 transition-colors ${
+                className={`md:hidden inline-flex items-center justify-center rounded-lg p-2 transition-all active:scale-95 ${
                   isNavbarSolid
-                    ? "text-sky-800 hover:bg-sky-200/50"
+                    ? "text-sky-900 hover:bg-sky-200/50"
                     : "text-white hover:bg-white/20"
                 }`}
                 aria-label="Toggle navigation"
               >
-                <FiMenu size={24} />
+                <FiMenu size={26} />
               </button>
             </div>
           </div>
         </nav>
       </header>
 
-      {/* MOBILE MENU (OFF-CANVAS) - Tidak Berubah */}
       <div
-        className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
           open
             ? "opacity-100 visible"
             : "opacity-0 invisible pointer-events-none"
@@ -156,33 +152,33 @@ export default function Navbar() {
         />
 
         <div
-          className={`absolute top-0 right-0 h-full w-[280px] bg-[#dcedff] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
+          className={`absolute top-0 right-0 h-full w-[280px] sm:w-[320px] bg-[#f0f9ff] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col z-50 ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex items-center justify-between p-5 border-b border-sky-200/60">
+          <div className="flex items-center justify-between p-5 border-b border-sky-200">
             <span className="text-lg font-bold text-sky-900 font-plusjakartasans">
               {menuText.menuTitle}
             </span>
             <button
               onClick={closeMenu}
-              className="p-2 rounded-full bg-white/40 text-sky-900 hover:bg-white/80 transition-colors"
+              className="p-2 rounded-full bg-sky-100 text-sky-900 hover:bg-sky-200 transition-colors active:scale-90"
             >
-              <FiX size={20} />
+              <FiX size={22} />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-2">
+          <div className="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-3">
             {navLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 onClick={closeMenu}
                 className={({ isActive }) =>
-                  `block w-full text-center py-3 rounded-xl text-base font-semibold font-plusjakartasans transition-all ${
+                  `block w-full text-center py-3.5 rounded-xl text-base font-bold font-plusjakartasans transition-all ${
                     isActive
-                      ? "bg-sky-600 text-white shadow-md shadow-sky-300"
-                      : "text-sky-800 hover:bg-sky-200/50"
+                      ? "bg-[#0B1A2E] text-[#D9D046] shadow-lg shadow-sky-900/20"
+                      : "text-sky-800 bg-white hover:bg-sky-50 border border-sky-100"
                   }`
                 }
               >
@@ -191,9 +187,14 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="p-6 text-center border-t border-sky-200/60">
-            <p className="text-xs text-sky-600 font-plusjakartasans">
-              © Exotic Mahseer
+          <div className="p-6 text-center border-t border-sky-200 bg-sky-50/50">
+            <img
+              src="/images/logo-mahseer.png"
+              alt="Logo"
+              className="h-8 mx-auto mb-3 opacity-80 mix-blend-multiply"
+            />
+            <p className="text-xs text-sky-600 font-plusjakartasans font-medium">
+              © {new Date().getFullYear()} Exotic Mahseer
             </p>
           </div>
         </div>

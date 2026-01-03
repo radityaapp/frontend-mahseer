@@ -70,11 +70,11 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="p-3 md:p-5 flex flex-col flex-grow bg-white">
-        <h3 className="text-sm md:text-base font-bold text-[#0B1A2E] mb-1 md:mb-2 font-plusjakartasans leading-tight line-clamp-2 min-h-[2.5em]">
+        <h3 className="text-sm md:text-lg font-bold text-[#0B1A2E] mb-1 md:mb-2 font-plusjakartasans leading-tight line-clamp-2 min-h-[2.5em]">
           {product.name}
         </h3>
 
-        <p className="text-slate-500 text-[10px] md:text-[11px] font-semibold leading-relaxed mb-3 md:mb-4 flex-grow line-clamp-2 md:line-clamp-3 font-plusjakartasans">
+        <p className="text-slate-500 text-[11px] md:text-[13px] font-semibold leading-relaxed mb-3 md:mb-4 flex-grow line-clamp-2 md:line-clamp-3 font-plusjakartasans">
           {product.general_information || product.description || t.emptyDesc}
         </p>
 
@@ -88,7 +88,7 @@ export default function ProductCard({ product }) {
               e.stopPropagation();
               handleClick();
             }}
-            className="w-full sm:w-auto px-4 py-1.5 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-[12px] md:text-[14px] font-bold rounded-full transition-colors text-center whitespace-nowrap shadow-sm"
+            className="w-full sm:w-auto px-4 py-1.5 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-[12px] md:text-[14px] font-bold rounded-full transition-all text-center whitespace-nowrap shadow-sm active:scale-95"
           >
             {t.seeMore}
           </button>

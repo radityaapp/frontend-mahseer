@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Quote } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight } from "lucide-react"; // Gunakan Lucide icons agar konsisten
 import useLocale from "../../hooks/useLocale";
 
 export default function TestimonialSection({ testimonials = [] }) {
@@ -26,7 +26,7 @@ export default function TestimonialSection({ testimonials = [] }) {
     if (isPaused || testimonials.length === 0) return;
     const interval = setInterval(() => {
       handleNext();
-    }, 3000);
+    }, 5000); // Diperlambat jadi 5 detik agar user sempat baca
     return () => clearInterval(interval);
   }, [handleNext, isPaused, testimonials.length]);
 
@@ -37,90 +37,84 @@ export default function TestimonialSection({ testimonials = [] }) {
 
   return (
     <section className="py-16 md:py-24 bg-[#0f1f38] border-t border-white/5 font-plusjakartasans relative overflow-hidden">
+      {/* Background Glow */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D9D046] rounded-full blur-[150px]"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[800px] bg-[#D9D046] rounded-full blur-[100px] md:blur-[150px]"></div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h2 className="text-center text-2xl md:text-4xl font-bold text-white mb-12 tracking-wide">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <h2 className="text-center text-2xl md:text-4xl font-bold text-white mb-8 md:mb-16 tracking-wide drop-shadow-lg">
           {title}
         </h2>
 
         <div
-          className="relative"
+          className="relative px-0 md:px-12"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
         >
-          <div className="bg-[#1a2c47]/90 backdrop-blur-sm p-8 md:p-12 rounded-[2rem] border border-white/10 shadow-2xl min-h-[350px] flex items-center justify-center transition-all duration-500 mx-0 relative">
+          {/* Main Card */}
+          <div className="bg-[#1a2c47]/80 backdrop-blur-md p-6 md:p-12 rounded-3xl border border-white/10 shadow-2xl min-h-[300px] md:min-h-[350px] flex items-center justify-center transition-all duration-500 mx-0 relative overflow-hidden">
+            {/* Prev Button (Hidden on Mobile) */}
             <button
               onClick={handlePrev}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 text-[#D9D046] hover:text-white p-2 rounded-full transition-all active:scale-90 bg-black/10 hover:bg-white/10 backdrop-blur-sm"
+              className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 text-[#D9D046] hover:text-white p-3 rounded-full transition-all active:scale-90 bg-black/20 hover:bg-white/10 backdrop-blur-sm border border-white/5"
               aria-label="Previous"
             >
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="drop-shadow-sm w-6 h-6 md:w-8 md:h-8"
-              >
-                <path d="M14 7l-5 5 5 5V7z" />
-              </svg>
+              <ChevronLeft size={28} />
             </button>
 
+            {/* Next Button (Hidden on Mobile) */}
             <button
               onClick={handleNext}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 text-[#D9D046] hover:text-white p-2 rounded-full transition-all active:scale-90 bg-black/10 hover:bg-white/10 backdrop-blur-sm"
+              className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 text-[#D9D046] hover:text-white p-3 rounded-full transition-all active:scale-90 bg-black/20 hover:bg-white/10 backdrop-blur-sm border border-white/5"
               aria-label="Next"
             >
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="drop-shadow-sm w-6 h-6 md:w-8 md:h-8"
-              >
-                <path d="M10 17l5-5-5-5v10z" />
-              </svg>
+              <ChevronRight size={28} />
             </button>
 
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12 w-full px-6 md:px-10">
+            {/* Content Wrapper */}
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12 w-full max-w-4xl">
+              {/* Avatar Section */}
               <div className="flex-shrink-0 flex flex-col items-center text-center">
-                <div className="w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#D9D046] shadow-lg mb-4 relative bg-slate-700">
+                <div className="w-24 h-24 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#D9D046] shadow-xl mb-4 relative bg-slate-700 ring-4 ring-white/10">
                   {activeTestimonial.avatar ? (
                     <img
                       src={activeTestimonial.avatar}
                       alt={activeTestimonial.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl text-white font-bold">
+                    <div className="w-full h-full flex items-center justify-center text-3xl md:text-5xl text-white font-bold bg-gradient-to-br from-slate-600 to-slate-800">
                       {activeTestimonial.name?.[0]}
                     </div>
                   )}
                 </div>
 
-                <h3 className="text-white text-lg md:text-xl font-bold mb-1">
-                  {activeTestimonial.name}
-                </h3>
-                <p className="text-[#D9D046] font-semibold text-xs md:text-sm uppercase tracking-wider">
-                  {activeTestimonial.institution || "Customer"}
-                </p>
+                <div className="space-y-1">
+                  <h3 className="text-white text-lg md:text-2xl font-bold leading-tight">
+                    {activeTestimonial.name}
+                  </h3>
+                  <p className="text-[#D9D046] font-medium text-xs md:text-sm uppercase tracking-wider">
+                    {activeTestimonial.institution || "Customer"}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex-1 text-center md:text-left relative">
+              {/* Quote Text Section */}
+              <div className="flex-1 text-center md:text-left relative flex flex-col justify-center">
                 <Quote
-                  size={48}
-                  className="text-[#D9D046] opacity-20 absolute -top-6 -left-6 hidden md:block"
+                  size={64}
+                  className="text-[#D9D046] opacity-10 absolute -top-8 -left-8 hidden md:block transform -scale-x-100"
                 />
 
-                <p className="text-sky-100 text-base md:text-xl italic leading-relaxed font-semibold relative z-10">
-                  {activeTestimonial.description}
+                <p className="text-sky-100/90 text-sm md:text-lg italic leading-relaxed md:leading-loose font-medium relative z-10 px-2 md:px-0">
+                  &ldquo;{activeTestimonial.description}&rdquo;
                 </p>
 
-                <div className="flex justify-center md:justify-start gap-2 mt-8">
+                {/* Dots Navigation */}
+                <div className="flex justify-center md:justify-start gap-2.5 mt-6 md:mt-8">
                   {testimonials.map((_, idx) => (
                     <button
                       key={idx}

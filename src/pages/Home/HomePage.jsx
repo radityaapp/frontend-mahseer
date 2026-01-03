@@ -69,27 +69,18 @@ export default function HomePage() {
   } = data || {};
 
   return (
-    <div className="min-h-screen bg-[#0B1A2E] font-plusjakartasans">
-      <div className="relative">
+    <div className="min-h-screen bg-[#0B1A2E] font-plusjakartasans overflow-x-hidden">
+      <div className="relative z-10">
         <BannerHero />
-        <div
-          className="absolute top-[550px] -left-[350px] w-[200px] h-[300px] md:w-[700px] md:h-[700px] pointer-events-none z-10 opacity-50"
-          style={{
-            backgroundImage: "url('/images/ornamen-bawah-product.png')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "top left",
-            backgroundSize: "contain",
-          }}
-        ></div>
       </div>
 
-      <div className="relative">
+      <div className="relative z-10">
         <ActivitiesSection activities={activities} />
       </div>
 
-      <section className="py-16 bg-[#0B1A2E] relative overflow-hidden">
+      <section className="py-12 md:py-20 bg-[#0B1A2E] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-hijau-lime text-2xl md:text-3xl font-bold mb-10">
+          <h2 className="text-hijau-lime text-2xl md:text-3xl font-bold mb-8 md:mb-12">
             {t.reasonsTitle}
           </h2>
 
@@ -124,32 +115,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="relative">
+      <div className="relative z-10">
         <ArticleHighlight articles={articles} />
-        <div
-          className="absolute top-1/2 -translate-y-1/2 right-0 w-[200px] h-[400px] md:w-[750px] md:h-[750px] pointer-events-none z-0 opacity-50"
-          style={{
-            backgroundImage: "url('/images/ornamen-bawah-product.png')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center right",
-            backgroundSize: "contain",
-          }}
-        ></div>
       </div>
 
-      <ProductHighlight products={products} />
+      <div className="relative z-10">
+        <ProductHighlight products={products} />
+      </div>
 
-      <div className="relative">
+      <div className="relative z-10">
         <TestimonialSection testimonials={testimonials} />
-        <div
-          className="absolute bottom-[-75px] -left-[400px] w-[200px] h-[300px] md:w-[750px] md:h-[750px] pointer-events-none z-0 opacity-50"
-          style={{
-            backgroundImage: "url('/images/ornamen-bawah-product.png')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "bottom left",
-            backgroundSize: "contain",
-          }}
-        ></div>
       </div>
     </div>
   );

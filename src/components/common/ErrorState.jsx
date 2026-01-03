@@ -26,28 +26,28 @@ export default function ErrorState({ title, message, onRetry }) {
   const displayMessage = message || t.message;
 
   return (
-    <div className="w-full py-16 px-4 flex flex-col items-center justify-center text-center font-plusjakartasans animate-in fade-in zoom-in duration-300">
-      <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 max-w-md w-full flex flex-col items-center">
-        <div className="bg-red-50 p-4 rounded-full mb-6 border border-red-100 shadow-sm relative group">
+    <div className="w-full py-12 md:py-20 px-4 flex flex-col items-center justify-center text-center font-plusjakartasans animate-in fade-in zoom-in duration-300">
+      <div className="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-slate-100 max-w-md w-full flex flex-col items-center">
+        <div className="bg-red-50 p-3 md:p-4 rounded-full mb-5 md:mb-6 border border-red-100 shadow-sm relative group">
           <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-20"></div>
           <AlertTriangle
-            size={40}
-            className="text-red-500 relative z-10 group-hover:scale-110 transition-transform duration-200"
+            className="text-red-500 relative z-10 group-hover:scale-110 transition-transform duration-200 w-8 h-8 md:w-10 md:h-10"
             strokeWidth={2}
           />
         </div>
 
-        <h3 className="text-xl font-bold text-[#0B1A2E] mb-3">
+        <h3 className="text-lg md:text-2xl font-bold text-[#0B1A2E] mb-2 md:mb-3">
           {displayTitle}
         </h3>
-        <p className="text-slate-500 text-sm leading-relaxed mb-8">
+
+        <p className="text-slate-500 text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-xs md:max-w-none">
           {displayMessage}
         </p>
 
         {onRetry && (
           <button
             onClick={onRetry}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] rounded-full font-bold transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] rounded-full font-bold transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
           >
             <RefreshCw size={18} />
             <span>{t.retry}</span>

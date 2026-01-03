@@ -42,6 +42,8 @@ export default function ProductDetailPage() {
       descTitle: "Deskripsi Produk",
       noDesc: "Belum ada deskripsi.",
       relatedTitle: "Produk lain yang mungkin Anda suka",
+      noRelated: "Tidak ada produk serupa saat ini.",
+      back: "Kembali",
     },
     en: {
       loading: "Preparing fish details...",
@@ -53,6 +55,8 @@ export default function ProductDetailPage() {
       descTitle: "Product Description",
       noDesc: "No description available.",
       relatedTitle: "Other products you might like",
+      noRelated: "No similar products at the moment.",
+      back: "Back",
     },
   }[locale];
 
@@ -115,75 +119,46 @@ export default function ProductDetailPage() {
     product.tokopedia_url || product.buy_links?.tokopedia || null;
 
   return (
-    <div className="min-h-screen bg-sky-50 font-plusjakartasans pb-20 pt-14 relative overflow-hidden">
-      <div
-        className="absolute top-0 right-0 w-[1200px] h-[600px] pointer-events-none z-0 opacity-40"
-        style={{
-          backgroundImage: "url('/images/ornamen-atas-detail-product.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "top right",
-          backgroundSize: "contain",
-          opacity: 0.7,
-        }}
-      ></div>
-
-      <div
-        className="absolute top-1/3 -left-10 w-[1200px] h-[600px] pointer-events-none z-0 opacity-40"
-        style={{
-          backgroundImage: "url('/images/ornamen-tengah-detail-product.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center left",
-          backgroundSize: "contain",
-          opacity: 0.7,
-        }}
-      ></div>
-
-      <div
-        className="absolute bottom-0 -right-10 w-[1200px] h-[600px] pointer-events-none z-0 opacity-40"
-        style={{
-          backgroundImage: "url('/images/ornamen-bawah-detail-product.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "bottom right",
-          backgroundSize: "contain",
-          opacity: 0.7,
-        }}
-      ></div>
+    <div className="min-h-screen bg-sky-50 font-plusjakartasans pb-20 pt-20 md:pt-24 relative overflow-hidden">
+      <div className="hidden md:block absolute top-0 right-0 w-[800px] h-[600px] pointer-events-none z-0 opacity-40 bg-[url('/images/ornamen-atas-detail-product.png')] bg-no-repeat bg-right-top bg-contain mix-blend-multiply"></div>
+      <div className="hidden md:block absolute top-1/3 -left-10 w-[800px] h-[600px] pointer-events-none z-0 opacity-40 bg-[url('/images/ornamen-tengah-detail-product.png')] bg-no-repeat bg-left-center bg-contain mix-blend-multiply"></div>
+      <div className="hidden md:block absolute bottom-0 -right-10 w-[800px] h-[600px] pointer-events-none z-0 opacity-40 bg-[url('/images/ornamen-bawah-detail-product.png')] bg-no-repeat bg-right-bottom bg-contain mix-blend-multiply"></div>
 
       <div
         className="absolute top-0 right-0 w-full h-[800px] opacity-10 pointer-events-none z-0"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 100% 0%, #0369a1 0%, transparent 25%), radial-gradient(circle at 100% 15%, #0369a1 0%, transparent 20%), radial-gradient(circle at 100% 30%, #0369a1 0%, transparent 15%)",
+            "radial-gradient(circle at 100% 0%, #0369a1 0%, transparent 25%), radial-gradient(circle at 100% 15%, #0369a1 0%, transparent 20%)",
         }}
       ></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-2 px-6 py-2 bg-[#0B1A2E] text-white rounded-full hover:bg-[#152744] transition-colors mb-8 text-sm font-bold shadow-lg"
+          className="inline-flex items-center gap-2 px-5 py-2 bg-[#0B1A2E] text-white rounded-full hover:bg-[#152744] transition-colors mb-6 text-sm font-bold shadow-lg active:scale-95"
         >
-          <ArrowLeft size={18} />
-          <span>Back</span>
+          <ArrowLeft size={16} />
+          <span>{t.back}</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
           <div className="space-y-4">
-            <div className="aspect-square w-full bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 relative group">
+            <div className="aspect-square w-full bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 relative group">
               {mainImage ? (
                 <img
                   src={mainImage}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               ) : (
-                <div className="h-full w-full flex items-center justify-center bg-slate-100 text-slate-400">
+                <div className="h-full w-full flex items-center justify-center bg-slate-100 text-slate-400 text-sm">
                   No Image Available
                 </div>
               )}
             </div>
 
             {images.length > 1 && (
-              <div className="grid grid-cols-5 gap-3">
+              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-3">
                 {images.map((img, index) => {
                   const thumb = getImageUrl(img);
                   return (
@@ -198,7 +173,7 @@ export default function ProductDetailPage() {
                     >
                       <img
                         src={thumb}
-                        alt={`thumbnail-${index}`}
+                        alt={`thumb-${index}`}
                         className="w-full h-full object-cover"
                       />
                     </button>
@@ -208,32 +183,35 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          <div className="flex flex-col pt-2 h-full">
-            <h1 className="text-4xl font-bold text-[#0B1A2E] mb-2 leading-tight">
-              {product.name}
-            </h1>
+          <div className="flex flex-col h-full">
+            <div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0B1A2E] mb-3 leading-tight">
+                {product.name}
+              </h1>
 
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <span className="text-3xl font-bold text-[#0B1A2E]">
-                {formattedPrice}
-              </span>
+              <div className="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-sky-200/50">
+                <span className="text-2xl md:text-3xl font-bold text-[#0369a1]">
+                  {formattedPrice}
+                </span>
+                <div className="scale-90 origin-left">
+                  <CurrencySwitcher
+                    prices={product.prices}
+                    currentCurrency={currency}
+                    onCurrencyChange={setCurrency}
+                  />
+                </div>
+              </div>
 
-              <CurrencySwitcher
-                prices={product.prices}
-                currentCurrency={currency}
-                onCurrencyChange={setCurrency}
-              />
+              <div className="mb-6">
+                <span className="inline-block bg-[#0B1A2E] text-white text-sm font-bold px-3 py-1.5 rounded-md tracking-wide uppercase">
+                  {t.stock}: {product.stock ?? "-"}
+                </span>
+              </div>
             </div>
 
-            <div className="mb-8">
-              <span className="inline-block bg-[#0B1A2E] text-white text-xs font-bold px-3 py-1.5 rounded">
-                {t.stock}: {product.stock ?? "-"}
-              </span>
-            </div>
-
-            <div className="mt-auto pt-10">
-              <div className="mb-8 bg-sky-50/50 p-0 rounded-xl relative z-10">
-                <h3 className="text-base font-bold text-[#0B1A2E] mb-2">
+            <div className="mt-auto pt-6">
+              <div className="bg-white/60 backdrop-blur-sm p-5 rounded-2xl border border-sky-100 mb-6">
+                <h3 className="text-base font-bold text-[#0B1A2E] mb-2 uppercase tracking-wider">
                   {t.generalInfo}
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
@@ -241,23 +219,18 @@ export default function ProductDetailPage() {
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {whatsappUrl && (
                   <a
                     href={whatsappUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full flex items-center justify-center gap-4 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-5 rounded-2xl transition-all shadow-md hover:shadow-lg hover:-translate-y-1"
+                    className="group w-full flex items-center justify-center gap-3 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-4 rounded-xl transition-all shadow-md active:scale-[0.98]"
                   >
-                    <div className="w-9 h-9 flex items-center justify-center border-[2.5px] border-[#0B1A2E] rounded-full">
-                      <MessageCircle
-                        size={20}
-                        className="text-[#0B1A2E]"
-                        fill="transparent"
-                        strokeWidth={2.8}
-                      />
+                    <div className="w-8 h-8 flex items-center justify-center border-2 border-[#0B1A2E] rounded-full group-hover:bg-[#0B1A2E] group-hover:text-[#D9D046] transition-colors">
+                      <MessageCircle size={18} strokeWidth={2.5} />
                     </div>
-                    <span className="tracking-wide">{t.buyWa}</span>
+                    <span>{t.buyWa}</span>
                   </a>
                 )}
 
@@ -266,16 +239,12 @@ export default function ProductDetailPage() {
                     href={tokopediaUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full flex items-center justify-center gap-4 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-5 rounded-2xl transition-all shadow-md hover:shadow-lg hover:-translate-y-1"
+                    className="group w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:border-[#D9D046] text-[#0B1A2E] text-base font-bold py-4 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.98]"
                   >
-                    <div className="w-9 h-9 flex items-center justify-center border-[2.5px] border-[#0B1A2E] rounded-full">
-                      <Store
-                        size={20}
-                        className="text-[#0B1A2E]"
-                        strokeWidth={2.5}
-                      />
+                    <div className="w-8 h-8 flex items-center justify-center border-2 border-[#0B1A2E] rounded-full group-hover:bg-[#0B1A2E] group-hover:text-white transition-colors">
+                      <Store size={18} strokeWidth={2.5} />
                     </div>
-                    <span className="tracking-wide">{t.buyTokped}</span>
+                    <span>{t.buyTokped}</span>
                   </a>
                 )}
               </div>
@@ -284,30 +253,28 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="mb-16">
-          <h2 className="text-xl font-bold text-[#0B1A2E] mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-[#0B1A2E] mb-4 border-l-4 border-[#D9D046] pl-4">
             {t.descTitle}
           </h2>
-          <div className="bg-sky-50/80 rounded-2xl">
-            <p className="text-slate-600 text-sm leading-loose text-justify whitespace-pre-line">
-              {product.description || t.noDesc}
-            </p>
+          <div className="prose prose-slate max-w-none text-slate-600 text-base md:text-base leading-relaxed text-justify whitespace-pre-line bg-white/50 p-6 rounded-2xl border border-sky-50">
+            {product.description || t.noDesc}
           </div>
         </div>
 
-        <div>
-          <h2 className="text-2xl font-bold text-[#0B1A2E] mb-6">
+        <div className="mb-20">
+          <h2 className="text-xl md:text-2xl font-bold text-[#0B1A2E] mb-8 text-center md:text-left">
             {t.relatedTitle}
           </h2>
 
           {related.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {related.map((item) => (
                 <ProductCard key={item.id} product={item} />
               ))}
             </div>
           ) : (
-            <div className="text-center py-10 text-slate-500 bg-sky-100/50 rounded-xl">
-              Tidak ada produk serupa saat ini.
+            <div className="text-center text-sm font-semibold py-12 text-slate-500 bg-sky-50 rounded-2xl border border-dashed border-sky-200">
+              {t.noRelated}
             </div>
           )}
         </div>

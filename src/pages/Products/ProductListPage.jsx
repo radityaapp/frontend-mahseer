@@ -5,6 +5,7 @@ import ProductCard from "../../components/products/ProductCard";
 import Loader from "../../components/common/Loader";
 import ErrorState from "../../components/common/ErrorState";
 import useLocale from "../../hooks/useLocale";
+import useCurrency from "../../hooks/useCurrency";
 import { Filter, ChevronDown, X } from "lucide-react";
 
 const FilterSidebar = ({
@@ -46,7 +47,7 @@ const FilterSidebar = ({
       <div className="md:hidden mb-4">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between px-5 py-3 bg-[#152744] border border-sky-800/50 rounded-xl text-sky-100 font-bold transition-all active:scale-98"
+          className="w-full flex items-center justify-between px-5 py-3 bg-[#152744] border border-sky-800/50 rounded-xl text-sky-100 font-bold transition-all active:scale-98 shadow-lg"
         >
           <div className="flex items-center gap-2">
             <Filter size={18} className="text-hijau-lime" />
@@ -160,8 +161,33 @@ export default function ProductListPage() {
   const [activeSort, setActiveSort] = useState("");
 
   const { locale } = useLocale();
-  const loadingText =
-    locale === "en" ? "Preparing Rods..." : "Menyiapkan Joran...";
+  const { currency, setCurrency } = useCurrency();
+
+  const pageTranslations = {
+    id: {
+      loading: "Menyiapkan Joran...",
+      title: "Produk Kami",
+      descPart1: "Ingin membeli satuan atau paket?",
+      descPart2: "Silakan pilih yang Anda suka.",
+      noProduct: "Tidak ada produk di kategori ini.",
+    },
+    en: {
+      loading: "Preparing Rods...",
+      title: "Our Products",
+      descPart1: "Would you like to buy per fish or as a package?",
+      descPart2: "Feel free to choose whichever you like.",
+      noProduct: "No products found in this category.",
+    },
+  };
+  const t = pageTranslations[locale] || pageTranslations.id;
+
+  useEffect(() => {
+    if (locale === "id") {
+      setCurrency("IDR");
+    } else {
+      setCurrency("USD");
+    }
+  }, [locale, setCurrency]);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -183,6 +209,8 @@ export default function ProductListPage() {
         const result = await fetchProducts({
           category: activeCategory,
           sort: activeSort,
+          lang: locale,
+          currency: currency,
         });
 
         const productData = Array.isArray(result) ? result : result.data || [];
@@ -195,7 +223,7 @@ export default function ProductListPage() {
     };
 
     loadData();
-  }, [activeCategory, activeSort]);
+  }, [activeCategory, activeSort, locale, currency]);
 
   return (
     <div className="relative min-h-screen bg-[#0f1f38] font-plusjakartasans overflow-x-hidden">
@@ -221,12 +249,12 @@ export default function ProductListPage() {
         ></div>
 
         <div className="relative z-30 h-full flex flex-col items-center justify-center text-center px-4 pt-10">
-          <h1 className="text-hijau-lime text-4xl md:text-5xl font-bold mb-3 tracking-wide drop-shadow-md">
+          <h1 className="text-hijau-lime text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-wide drop-shadow-md">
             Our Products
           </h1>
-          <p className="text-sky-100 text-sm md:text-base max-w-xl drop-shadow-sm">
-            Would you like to buy per fish or as a package? <br />
-            Feel free to choose whichever you like.
+          <p className="text-sky-100 text-sm md:text-lg max-w-xl drop-shadow-sm leading-relaxed">
+            {t.descPart1} <br className="hidden md:block" />
+            {t.descPart2}
           </p>
         </div>
       </div>
@@ -253,7 +281,7 @@ export default function ProductListPage() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row gap-8">
-          <div className="md:sticky md:top-24 h-fit">
+          <div className="md:sticky md:top-24 h-fit md:self-start w-full md:w-auto">
             <FilterSidebar
               categories={categories}
               activeCategory={activeCategory}
@@ -262,21 +290,20 @@ export default function ProductListPage() {
               setActiveSort={setActiveSort}
             />
           </div>
+
           <div className="flex-1">
             {loadingProducts ? (
               <div className="min-h-[400px] flex items-center justify-center">
-                <Loader text={loadingText} />
+                <Loader text={t.loading} />
               </div>
             ) : error ? (
               <ErrorState onRetry={() => window.location.reload()} />
             ) : products.length === 0 ? (
               <div className="text-center py-20 bg-[#152744] rounded-xl border border-sky-800 border-dashed">
-                <p className="text-sky-200">
-                  Tidak ada produk di kategori ini.
-                </p>
+                <p className="text-sky-200">{t.noProduct}</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

@@ -33,24 +33,29 @@ export default function BannerHero() {
         }}
       ></div>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0f1f38]/90 via-[#0f1f38]/60 to-transparent z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0f1f38]/95 via-[#0f1f38]/70 to-transparent z-10"></div>
 
       <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
         <div className="max-w-2xl text-white">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 drop-shadow-lg">
             {t.title1} <br />
             <span className="text-hijau-lime">{t.title2}</span> <br />
             {t.title3}
           </h1>
-          <p className="text-sky-100 text-sm md:text-lg leading-relaxed mb-8 max-w-lg">
+
+          <p className="text-sky-100 text-sm md:text-lg leading-relaxed mb-8 max-w-lg drop-shadow-md">
             {t.desc}
           </p>
+
           <button
             onClick={() => navigate("/about")}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-hijau-lime hover:bg-[#B8CA06] text-[#0B1A2E] font-bold rounded-full transition-all shadow-lg hover:-translate-y-1"
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-hijau-lime hover:bg-[#B8CA06] text-[#0B1A2E] font-bold rounded-full transition-all shadow-lg hover:-translate-y-1 active:scale-95"
           >
             {t.btn}
-            <ArrowRight size={18} />
+            <ArrowRight
+              size={18}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </button>
         </div>
       </div>
