@@ -260,7 +260,7 @@ export default function ProductListPage() {
       </div>
 
       <div
-        className="absolute bottom-0 -left-[150px] md:-left-[350px] w-[600px] h-[350px] md:w-[1200px] md:h-[700px] pointer-events-none z-0 opacity-50"
+        className="absolute bottom-0 -left-[150px] md:-left-[350px] w-[600px] h-[350px] md:w-[800px] md:h-[800px] pointer-events-none z-0 opacity-50"
         style={{
           backgroundImage: "url('/images/ornamen-bawah-product.png')",
           backgroundRepeat: "no-repeat",
@@ -270,7 +270,7 @@ export default function ProductListPage() {
       ></div>
 
       <div
-        className="absolute top-0 -right-[150px] md:-right-[300px] w-[600px] h-[350px] md:w-[1200px] md:h-[700px] pointer-events-none z-0 opacity-50"
+        className="absolute top-0 -right-[150px] md:-right-[350px] w-[600px] h-[350px] md:w-[800px] md:h-[800px] pointer-events-none z-0 opacity-50"
         style={{
           backgroundImage: "url('/images/ornamen-bawah-product.png')",
           backgroundRepeat: "no-repeat",

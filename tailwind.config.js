@@ -3,13 +3,13 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./index.html"],
   theme: {
     extend: {
-        colors: {
+      colors: {
         "hijau-lime": "#D6E264",
         "biru-nila": "#3652A5",
         "biru-muda": "#89BCD9",
         "biru-muda-2": "#EDF8FF",
         "biru-tua": "#17366E",
-        "biru-tua-2": "#0e1d36ff"
+        "biru-tua-2": "#0e1d36ff",
       },
 
       animation: {
