@@ -89,13 +89,13 @@ export default function HomePage() {
 
       <section className="py-16 bg-[#0B1A2E] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-[#D9D046] text-2xl md:text-3xl font-bold mb-10">
+          <h2 className="text-hijau-lime text-2xl md:text-3xl font-bold mb-10">
             {t.reasonsTitle}
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-center">
             <div className="bg-sky-50 rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center min-h-[140px] md:min-h-[180px] shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-              <span className="text-3xl md:text-5xl font-bold text-[#1e3a8a] mb-1 md:mb-2">
+              <span className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-[#738DDA] to-biru-tua bg-clip-text text-transparent mb-1 md:mb-2">
                 100+
               </span>
               <span className="text-[#1e3a8a] font-medium text-sm md:text-lg">
@@ -104,7 +104,7 @@ export default function HomePage() {
             </div>
 
             <div className="bg-sky-50 rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center min-h-[140px] md:min-h-[180px] shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-              <span className="text-3xl md:text-5xl font-bold text-[#1e3a8a] mb-1 md:mb-2">
+              <span className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-[#738DDA] to-biru-tua bg-clip-text text-transparent mb-1 md:mb-2">
                 30+
               </span>
               <span className="text-[#1e3a8a] font-medium text-sm md:text-lg">
@@ -113,7 +113,7 @@ export default function HomePage() {
             </div>
 
             <div className="bg-sky-50 rounded-2xl p-6 md:p-8 flex flex-col items-center justify-center min-h-[140px] md:min-h-[180px] shadow-lg transform hover:-translate-y-1 transition-transform duration-300 sm:col-span-2 md:col-span-1 sm:w-1/2 md:w-auto sm:mx-auto md:mx-0">
-              <span className="text-3xl md:text-5xl font-bold text-[#1e3a8a] mb-1 md:mb-2">
+              <span className="text-4xl md:text-6xl font-bold bg-gradient-to-b from-[#738DDA] to-biru-tua bg-clip-text text-transparent mb-1 md:mb-2">
                 3
               </span>
               <span className="text-[#1e3a8a] font-medium text-sm md:text-lg">

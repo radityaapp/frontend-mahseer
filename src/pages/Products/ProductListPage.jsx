@@ -49,7 +49,7 @@ const FilterSidebar = ({
           className="w-full flex items-center justify-between px-5 py-3 bg-[#152744] border border-sky-800/50 rounded-xl text-sky-100 font-bold transition-all active:scale-98"
         >
           <div className="flex items-center gap-2">
-            <Filter size={18} className="text-[#D9D046]" />
+            <Filter size={18} className="text-hijau-lime" />
             <span>{isOpen ? t.closeBtn : t.filterBtn}</span>
           </div>
           {isOpen ? (
@@ -66,7 +66,7 @@ const FilterSidebar = ({
         } md:block bg-[#152744] md:bg-transparent p-5 md:p-0 rounded-2xl md:rounded-none border border-sky-800/50 md:border-none shadow-xl md:shadow-none transition-all`}
       >
         <div className="mb-8">
-          <h3 className="text-[#D9D046] font-bold text-lg mb-4 md:mb-6 tracking-wide border-b border-[#D9D046]/20 pb-2 md:border-none md:pb-0">
+          <h3 className="text-hijau-lime font-bold text-lg mb-4 md:mb-6 tracking-wide border-b border-hijau-lime/20 pb-2 md:border-none md:pb-0">
             {t.titleCategory}
           </h3>
 
@@ -87,8 +87,8 @@ const FilterSidebar = ({
                     }}
                     className={`text-[15px] text-left transition-all duration-200 w-full block py-1 md:py-0 ${
                       activeCategory === cat.slug
-                        ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
-                        : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
+                        ? "text-white font-bold pl-3 border-l-[3px] border-hijau-lime"
+                        : "text-sky-200/60 hover:text-hijau-lime pl-0 hover:pl-2"
                     }`}
                   >
                     {cat.name}
@@ -100,7 +100,7 @@ const FilterSidebar = ({
         </div>
 
         <div>
-          <h3 className="text-[#D9D046] font-bold text-lg mb-4 md:mb-6 tracking-wide border-b border-[#D9D046]/20 pb-2 md:border-none md:pb-0">
+          <h3 className="text-hijau-lime font-bold text-lg mb-4 md:mb-6 tracking-wide border-b border-hijau-lime/20 pb-2 md:border-none md:pb-0">
             {t.titlePrice}
           </h3>
           <ul className="space-y-2 md:space-y-4">
@@ -112,8 +112,8 @@ const FilterSidebar = ({
                 }}
                 className={`text-[15px] text-left transition-all duration-200 w-full block py-1 md:py-0 ${
                   activeSort === "termurah"
-                    ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
-                    : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
+                    ? "text-white font-bold pl-3 border-l-[3px] border-hijau-lime"
+                    : "text-sky-200/60 hover:text-hijau-lime pl-0 hover:pl-2"
                 }`}
               >
                 {t.labelLowest}
@@ -127,8 +127,8 @@ const FilterSidebar = ({
                 }}
                 className={`text-[15px] text-left transition-all duration-200 w-full block py-1 md:py-0 ${
                   activeSort === "termahal"
-                    ? "text-white font-bold pl-3 border-l-[3px] border-[#D9D046]"
-                    : "text-sky-200/60 hover:text-[#D9D046] pl-0 hover:pl-2"
+                    ? "text-white font-bold pl-3 border-l-[3px] border-hijau-lime"
+                    : "text-sky-200/60 hover:text-hijau-limepl-0 hover:pl-2"
                 }`}
               >
                 {t.labelHighest}
@@ -221,7 +221,7 @@ export default function ProductListPage() {
         ></div>
 
         <div className="relative z-30 h-full flex flex-col items-center justify-center text-center px-4 pt-10">
-          <h1 className="text-[#D9D046] text-4xl md:text-5xl font-bold mb-3 tracking-wide drop-shadow-md">
+          <h1 className="text-hijau-lime text-4xl md:text-5xl font-bold mb-3 tracking-wide drop-shadow-md">
             Our Products
           </h1>
           <p className="text-sky-100 text-sm md:text-base max-w-xl drop-shadow-sm">

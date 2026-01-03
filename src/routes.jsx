@@ -3,6 +3,7 @@ import ProductListPage from "./pages/Products/ProductListPage";
 import ProductDetailPage from "./pages/Products/ProductDetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/Home/HomePage";
+import AboutUsPage from "./pages/About/AboutUsPage";
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
       },
       {
         path: "about",
-        element: <div className="p-20 text-center">Halaman About Us</div>,
+        element: <AboutUsPage />,
       },
       {
         path: "articles",
