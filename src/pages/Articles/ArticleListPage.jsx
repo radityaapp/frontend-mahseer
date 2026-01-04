@@ -63,7 +63,7 @@ export default function ArticleListPage() {
     return (
         <div className="min-h-screen bg-biru-muda-2 text-biru-tua pb-10 relative font-plusjakartasans overflow-x-hidden">           
             <div
-                className=" lg:block absolute top-0 -right-[150px] md:-right-[550px] w-[300px] h-[250px] md:w-[1200px] md:h-[1200px] pointer-events-none z-0 opacity-30"
+                className=" lg:block absolute top-0 -right-[150px] md:-right-[550px] w-[300px] h-[250px] md:w-[1200px] md:h-[1200px] pointer-events-none z-0 opacity-60"
                 style={{
                 backgroundImage: "url('/images/ornamen-article.png')",
                 backgroundRepeat: "no-repeat",
@@ -73,7 +73,7 @@ export default function ArticleListPage() {
             ></div>
 
             <div
-                className=" lg:block absolute top-[45%] -left-[200px] md:-left-[350px] w-[300px] h-[250px] md:w-[1000px] md:h-[1000px] pointer-events-none z-0 opacity-30"
+                className=" lg:block absolute top-[45%] -left-[200px] md:-left-[350px] w-[300px] h-[250px] md:w-[1000px] md:h-[1000px] pointer-events-none z-0 opacity-60"
                 style={{
                 backgroundImage: "url('/images/ornamen-article.png')",
                 backgroundRepeat: "no-repeat",
@@ -84,7 +84,7 @@ export default function ArticleListPage() {
 
 
             <div
-            className="absolute inset-0 bg-cover bg-center opacity-40 z-0 -top-[100px] h-[600px] w-full"
+            className="absolute inset-0 bg-cover bg-center z-0 -top-[100px] h-[600px] w-full"
             style={{
                 backgroundImage: "url('/images/background-articles.png')",
                 opacity: 1,
@@ -104,11 +104,11 @@ export default function ArticleListPage() {
                 </section>
             </div>
 
-            <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-16">
+            <div className="-mt-16 lg:-mt-36 relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-16">
             {loading ? (
               <div className="min-h-[400px] flex items-center justify-center">
                 <Loader text={t.loading} />
-              </div>
+              </div>    
             ) : error ? (
               <ErrorState onRetry={() => window.location.reload()} />
             ) : articles.length === 0 ? (

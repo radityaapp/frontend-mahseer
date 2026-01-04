@@ -5,6 +5,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/Home/HomePage";
 import AboutUsPage from "./pages/About/AboutUsPage";
 import ArticleListPage from "./pages/Articles/ArticleListPage";
+import ArticleDetailPage from "./pages/Articles/ArticleDetailPage";
 
 const routes = [
   {
@@ -30,6 +31,10 @@ const routes = [
       {
         path: "articles",
         element: <ArticleListPage />,
+      },
+      {
+        path: "articles/:slug",
+        element: <ArticleDetailPage />,
       },
     ],
   },

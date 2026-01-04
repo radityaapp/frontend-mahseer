@@ -225,9 +225,9 @@ export default function ProductDetailPage() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="group w-full flex items-center justify-center gap-3 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-4 rounded-xl transition-all shadow-md active:scale-[0.98]"
+                    className="group w-full flex items-center justify-center gap-3 bg-hijau-lime hover:bg-[#c9c03a] text-[#0B1A2E] text-base font-bold py-4 rounded-xl transition-all shadow-md active:scale-[0.98]"
                   >
-                    <div className="w-8 h-8 flex items-center justify-center border-2 border-[#0B1A2E] rounded-full group-hover:bg-[#0B1A2E] group-hover:text-[#D9D046] transition-colors">
+                    <div className="w-8 h-8 flex items-center justify-center border-2 border-[#0B1A2E] rounded-full group-hover:bg-[#0B1A2E] group-hover:text-hijau-lime transition-colors">
                       <MessageCircle size={18} strokeWidth={2.5} />
                     </div>
                     <span>{t.buyWa}</span>
@@ -239,7 +239,7 @@ export default function ProductDetailPage() {
                     href={tokopediaUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="group w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:border-[#D9D046] text-[#0B1A2E] text-base font-bold py-4 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.98]"
+                    className="group w-full flex items-center justify-center gap-3 bg-white border border-gray-200 hover:border-hijau-lime text-[#0B1A2E] text-base font-bold py-4 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.98]"
                   >
                     <div className="w-8 h-8 flex items-center justify-center border-2 border-[#0B1A2E] rounded-full group-hover:bg-[#0B1A2E] group-hover:text-white transition-colors">
                       <Store size={18} strokeWidth={2.5} />
@@ -253,7 +253,7 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="mb-16">
-          <h2 className="text-xl md:text-2xl font-bold text-[#0B1A2E] mb-4 border-l-4 border-[#D9D046] pl-4">
+          <h2 className="text-xl md:text-2xl font-bold text-[#0B1A2E] mb-4 border-l-4 border-hijau-lime pl-4">
             {t.descTitle}
           </h2>
           <div className="prose prose-slate max-w-none text-slate-600 text-base md:text-base leading-relaxed text-justify whitespace-pre-line bg-white/50 p-6 rounded-2xl border border-sky-50">
