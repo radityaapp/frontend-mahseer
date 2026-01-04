@@ -88,7 +88,7 @@ export default function ProductCard({ product }) {
               e.stopPropagation();
               handleClick();
             }}
-            className="w-full sm:w-auto px-4 py-1.5 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-[12px] md:text-[14px] font-bold rounded-full transition-all text-center whitespace-nowrap shadow-sm active:scale-95"
+            className="w-full sm:w-auto px-4 py-1.5 bg-hijau-lime hover:bg-[#c9c03a] text-[#0B1A2E] text-[12px] md:text-[14px] font-bold rounded-full transition-all text-center whitespace-nowrap shadow-sm active:scale-95"
           >
             {t.seeMore}
           </button>

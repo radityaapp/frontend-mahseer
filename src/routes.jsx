@@ -4,6 +4,7 @@ import ProductDetailPage from "./pages/Products/ProductDetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/Home/HomePage";
 import AboutUsPage from "./pages/About/AboutUsPage";
+import ArticleListPage from "./pages/Articles/ArticleListPage";
 
 const routes = [
   {
@@ -28,7 +29,7 @@ const routes = [
       },
       {
         path: "articles",
-        element: <div className="p-20 text-center">Halaman Artikel</div>,
+        element: <ArticleListPage />,
       },
     ],
   },

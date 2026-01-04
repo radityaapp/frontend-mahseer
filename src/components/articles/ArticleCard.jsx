@@ -38,7 +38,7 @@ export default function ArticleCard({ article }) {
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
 
         <div className="absolute top-4 left-4 bg-[#0B1A2E]/80 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
-          <span className="text-[10px] font-bold text-[#D9D046] uppercase tracking-wider">
+          <span className="text-[10px] font-bold text-hijau-lime uppercase tracking-wider">
             Article
           </span>
         </div>
@@ -47,12 +47,12 @@ export default function ArticleCard({ article }) {
       <div className="flex flex-col flex-grow p-5 md:p-6">
         <div className="flex items-center gap-4 text-xs text-slate-500 mb-3 font-medium border-b border-slate-100 pb-3">
           <div className="flex items-center gap-1.5">
-            <Calendar size={14} className="text-[#D9D046]" />
+            <Calendar size={14} className="text-hijau-lime" />
             <span>{dateString}</span>
           </div>
           {article.author && (
             <div className="flex items-center gap-1.5">
-              <User size={14} className="text-[#D9D046]" />
+              <User size={14} className="text-hijau-lime" />
               <span className="line-clamp-1">{article.author}</span>
             </div>
           )}
@@ -67,7 +67,7 @@ export default function ArticleCard({ article }) {
         </p>
 
         <div className="mt-auto flex justify-end">
-          <span className="px-5 py-2 bg-[#D9D046] hover:bg-[#c9c03a] text-[#0B1A2E] text-sm font-bold rounded-full transition-all shadow-sm active:scale-95 flex items-center gap-2 group-hover:gap-3">
+          <span className="px-5 py-2 bg-hijau-lime hover:bg-[#c9c03a] text-[#0B1A2E] text-sm font-bold rounded-full transition-all shadow-sm active:scale-95 flex items-center gap-2 group-hover:gap-3">
             {t.seeMore}
             <svg
               className="w-4 h-4"
