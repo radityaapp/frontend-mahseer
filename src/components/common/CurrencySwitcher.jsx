@@ -33,7 +33,7 @@ export default function CurrencySwitcher({
     <div className="relative font-plusjakartasans z-20" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 bg-[#D9D046] px-3.5 py-2 md:py-1.5 rounded-md text-sm font-bold text-slate-900 hover:bg-[#c9c03a] transition-all shadow-sm active:scale-95"
+        className="flex items-center gap-1.5 bg-hijau-lime px-3.5 py-2 md:py-1.5 rounded-md text-sm font-bold text-slate-900 hover:bg-[#c9c03a] transition-all shadow-sm active:scale-95"
       >
         <span>
           {currentCurrency && currentCurrency !== "IDR"

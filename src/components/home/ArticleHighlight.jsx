@@ -69,7 +69,7 @@ export default function ArticleHighlightSection({ articles = [] }) {
                 </div>
 
                 {/* Date Badge */}
-                <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-[#0B1A2E]/90 backdrop-blur-md px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-bold text-[#D9D046] shadow-md tracking-wide border border-[#D9D046]/30">
+                <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-[#0B1A2E]/90 backdrop-blur-md px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-bold text-hijau-lime shadow-md tracking-wide border border-hijau-lime/30">
                   {dateString}
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function ArticleHighlightSection({ articles = [] }) {
 
               <button
                 onClick={() => navigate(`/articles/${featuredArticle.slug}`)}
-                className="group inline-flex items-center gap-2 md:gap-3 text-[#0B1A2E] font-bold text-base md:text-lg border-b-2 border-[#D9D046] pb-1 hover:text-[#D9D046] hover:border-transparent transition-all"
+                className="group inline-flex items-center gap-2 md:gap-3 text-[#0B1A2E] font-bold text-base md:text-lg border-b-2 border-hijau-lime pb-1 hover:text-hijau-lime hover:border-transparent transition-all"
               >
                 {t.readMore}
                 <ArrowRight className="group-hover:translate-x-1 transition-transform w-5 h-5 md:w-6 md:h-6" />
