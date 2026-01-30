@@ -47,27 +47,23 @@ export default function ArticleDetailPage() {
       setArticle(null);
       setRelated([]);
 
-  try {
-    const detailRes = await getArticleDetail(slug, { lang: locale });
-    const articleData = detailRes?.data ?? null;
-    setArticle(articleData);
+      try {
+        const detailRes = await getArticleDetail(slug, { lang: locale });
+        const articleData = detailRes?.data ?? null;
+        setArticle(articleData);
 
-    const listRes = await fetchArticles({ lang: locale });
-    const allArticles = Array.isArray(listRes)
-      ? listRes
-      : listRes.data ?? [];
-
-    const otherArticles = allArticles.filter(
-      (item) => item.slug !== slug
-    );
-
-    setRelated(otherArticles.slice(0, 3));
-  } catch (err) {
-    console.error(err);
-    setError("Gagal memuat artikel.");
-  } finally {
-    setLoading(false);
-  }
+        const listRes = await fetchArticles({ lang: locale });
+        const allArticles = Array.isArray(listRes)
+          ? listRes
+          : listRes.data ?? [];
+        const otherArticles = allArticles.filter((item) => item.slug !== slug);
+        setRelated(otherArticles.slice(0, 3));
+      } catch (err) {
+        console.error(err);
+        setError("Gagal memuat artikel.");
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchDetail();
@@ -78,130 +74,170 @@ export default function ArticleDetailPage() {
 
   if (error || !article) {
     return (
-      <ErrorState
-        message={error || "Artikel tidak ditemukan"}
-        onRetry={() => navigate("/articles")}
-      />
+      <div className="min-h-screen bg-[#0B1A2E] flex items-center justify-center">
+        <ErrorState
+          message={error || "Artikel tidak ditemukan"}
+          onRetry={() => navigate("/articles")}
+        />
+      </div>
     );
   }
 
   const heroImage =
-    getImageUrl(article.featured_image) ||
-    getImageUrl(article.hero_image);
+    getImageUrl(article.featured_image) || getImageUrl(article.hero_image);
 
-const images = article.images || [];
-const inlineImage = images.length > 1 ? images[1] : null;
+  const contentImages = article.content_images || article.images || [];
 
-const content = article.content || "";
-const paragraphs = content.split("</p>");
+  const firstContentImage = contentImages.length > 0 ? contentImages[0] : null;
+  const remainingImages =
+    contentImages.length > 1 ? contentImages.slice(1) : [];
 
+  const content = article.content || "";
+  const paragraphs = content.split("</p>");
 
   return (
-    <div className="relative ovrflow-hidden min-h-screen bg-biru-muda-2 pt-24 pb-20">
-            <div
-                className=" lg:block absolute top-[300px] -right-[150px] md:-right-[550px] w-[300px] h-[250px] md:w-[1200px] md:h-[1200px] pointer-events-none z-0 opacity-45"
-                style={{
-                backgroundImage: "url('/images/ornamen-article.png')",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "top right",
-                backgroundSize: "contain",
-                }}
-            ></div>
+    <div className="relative min-h-screen bg-biru-muda-2 pt-24 pb-20 font-plusjakartasans overflow-x-hidden">
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+        <div
+          className="hidden lg:block absolute top-[100px] -right-[300px] lg:w-[750px] lg:h-[750px] z-0 opacity-60"
+          style={{
+            backgroundImage: "url('/images/ornamen-article.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "top right",
+            backgroundSize: "contain",
+          }}
+        ></div>
 
-            <div
-                className=" lg:block absolute top-[600px] -left-[200px] md:-left-[350px] w-[300px] h-[250px] md:w-[1000px] md:h-[1000px] pointer-events-none z-0 opacity-45"
-                style={{
-                backgroundImage: "url('/images/ornamen-article.png')",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center left",
-                backgroundSize: "contain",
-                }}
-            ></div>
+        <div
+          className="hidden lg:block absolute bottom-0 -left-[300px] lg:w-[750px] lg:h-[750px] z-0 opacity-60"
+          style={{
+            backgroundImage: "url('/images/ornamen-article.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "bottom left",
+            backgroundSize: "contain",
+          }}
+        ></div>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4">
-
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 inline-flex items-center gap-2 px-5 py-2 bg-biru-tua hover:bg-biru-tua-2 text-white rounded-full"
+          className="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-biru-tua hover:bg-sky-900 text-white text-sm font-medium rounded-full transition-colors shadow-sm active:scale-95"
         >
           <ArrowLeft size={16} />
           {t.back}
         </button>
 
         {heroImage && (
-          <img
-            src={heroImage}
-            alt={article.title}
-            className="w-full h-[450px] object-cover rounded-2xl mb-8"
-          />
+          <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[500px] mb-8 rounded-2xl overflow-hidden shadow-lg bg-slate-200">
+            <img
+              src={heroImage}
+              alt={article.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         )}
 
-        <div className="z-20 grid grid-cols-1 lg:grid-cols-12 gap-8 overflow-hidden">
-            <div className="lg:col-span-9">
-                <h1 className="text-3xl text-biru-tua md:text-4xl font-bold mb-4">
-                {article.title}
-                </h1>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <div className="lg:col-span-8 xl:col-span-9">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-biru-tua mb-4 leading-tight">
+              {article.title}
+            </h1>
 
-                <div className="flex gap-4 text-sm text-biru-tua-2 font-semibold text-slate-500 mb-6">
-                <Calendar size={16} />
-                {article.published_at_human}
-                {article.author && (
-                    <>
-                    <User size={16} />
-                    {article.author}
-                    </>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 font-medium mb-8 border-b border-slate-200 pb-6">
+              <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">
+                <Calendar size={14} className="text-hijau-lime" />
+                <span>{article.published_at_human}</span>
+              </div>
+              {article.author && (
+                <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">
+                  <User size={14} className="text-hijau-lime" />
+                  <span>{article.author}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="prose prose-slate prose-lg max-w-none text-justify text-slate-700 leading-relaxed clearfix">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html:
+                    paragraphs.slice(0, 2).join("</p>") +
+                    (paragraphs.length > 0 ? "</p>" : ""),
+                }}
+              />
+
+              <div className="my-6">
+                {firstContentImage && (
+                  <div className="float-none md:float-left md:mr-8 mb-6 w-full md:w-[45%]">
+                    <img
+                      src={getImageUrl(firstContentImage)}
+                      alt="Content Highlight"
+                      className="w-full h-auto object-cover rounded-xl shadow-lg border border-slate-200"
+                    />
+                  </div>
                 )}
+
+                {paragraphs.length > 2 && (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: paragraphs.slice(2).join("</p>"),
+                    }}
+                  />
+                )}
+
+                <div className="clear-both"></div>
+              </div>
+
+              {remainingImages.length > 0 && (
+                <div className="mt-10 border-t border-slate-200 pt-8">
+                  <h4 className="text-lg font-bold text-biru-tua mb-4">
+                    Galeri Dokumentasi
+                  </h4>
+                  <div
+                    className={`grid gap-4 ${
+                      remainingImages.length === 1
+                        ? "grid-cols-1"
+                        : "grid-cols-1 sm:grid-cols-2"
+                    }`}
+                  >
+                    {remainingImages.map((img, idx) => (
+                      <div
+                        key={idx}
+                        className="group relative overflow-hidden rounded-xl shadow-md h-64"
+                      >
+                        <img
+                          src={getImageUrl(img)}
+                          alt={`Gallery ${idx + 2}`}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
-            <div className="prose prose-slate max-w-none text-justify text-biru-tua-2">
-            <div
-                dangerouslySetInnerHTML={{
-                __html: paragraphs.slice(0, 2).join("</p>") + "</p>",
-                }}
-            />
-
-            {inlineImage && (
-                <figure className="my-10">
-                <img
-                    src={getImageUrl(inlineImage)}
-                    alt={article.title}
-                    className="w-full rounded-2xl shadow-lg"
-                />
-                </figure>
-            )}
-
-            <div
-                dangerouslySetInnerHTML={{
-                __html: paragraphs.slice(2).join("</p>"),
-                }}
-            />
+              )}
             </div>
+          </div>
 
-            </div>
-
-            <aside className="z-20 lg:col-span-3 space-y-4">
-            <h3 className="text-lg font-bold text-biru-tua mb-4">
+          <aside className="lg:col-span-4 xl:col-span-3 mt-8 lg:mt-0">
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm sticky top-24">
+              <h3 className="text-lg font-bold text-biru-tua mb-6 border-l-4 border-hijau-lime pl-3">
                 {t.relatedTitle}
-            </h3>
+              </h3>
 
-            {related.length > 0 ? (
-                <div className="space-y-3">
-                {related.slice(0, 3).map((item) => (
+              {related.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                  {related.map((item) => (
                     <ArticleCard key={item.id} article={item} />
-                ))}
+                  ))}
                 </div>
-            ) : (
-                <p className="text-sm text-slate-500">
-                {t.noRelated}
+              ) : (
+                <p className="text-sm text-slate-500 italic text-center py-4">
+                  {t.noRelated}
                 </p>
-            )}
-            </aside>
-
-        
+              )}
+            </div>
+          </aside>
         </div>
-
-        
-
       </div>
     </div>
   );

@@ -135,10 +135,10 @@ export default function ProductDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-2 px-5 py-2 bg-[#0B1A2E] text-white rounded-full hover:bg-[#152744] transition-colors mb-6 text-sm font-bold shadow-lg active:scale-95"
+          className="mb-6 inline-flex items-center gap-2 px-5 py-2 bg-biru-tua hover:bg-biru-tua-2 text-white text-sm font-bold rounded-full transition-all shadow-md active:scale-95"
         >
           <ArrowLeft size={16} />
-          <span>{t.back}</span>
+          {t.back}
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-16">

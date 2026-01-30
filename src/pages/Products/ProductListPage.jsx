@@ -163,7 +163,7 @@ export default function ProductListPage() {
   const { locale } = useLocale();
   const { currency, setCurrency } = useCurrency();
 
-  const pageTranslations = {
+  const t = {
     id: {
       loading: "Menyiapkan Joran...",
       title: "Produk Kami",
@@ -178,8 +178,7 @@ export default function ProductListPage() {
       descPart2: "Feel free to choose whichever you like.",
       noProduct: "No products found in this category.",
     },
-  };
-  const t = pageTranslations[locale] || pageTranslations.id;
+  }[locale];
 
   useEffect(() => {
     if (locale === "id") {
@@ -226,8 +225,30 @@ export default function ProductListPage() {
   }, [activeCategory, activeSort, locale, currency]);
 
   return (
-    <div className="relative min-h-screen bg-[#0f1f38] font-plusjakartasans overflow-x-hidden">
-      <div className="relative z-10 h-[300px] w-full bg-slate-900 overflow-hidden">
+    <div className="min-h-screen bg-[#0f1f38] font-plusjakartasans relative flex flex-col">
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+        <div
+          className="hidden lg:block absolute bottom-0 -left-[150px] md:-left-[350px] w-[600px] h-[350px] md:w-[800px] md:h-[800px] z-0 opacity-50"
+          style={{
+            backgroundImage: "url('/images/ornamen-bawah-product.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center left",
+            backgroundSize: "contain",
+          }}
+        ></div>
+
+        <div
+          className="hidden lg:block absolute top-[20%] -right-[150px] md:-right-[350px] w-[600px] h-[350px] md:w-[800px] md:h-[800px] z-0 opacity-50"
+          style={{
+            backgroundImage: "url('/images/ornamen-bawah-product.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center right",
+            backgroundSize: "contain",
+          }}
+        ></div>
+      </div>
+
+      <div className="relative z-10 h-[300px] md:h-[400px] lg:h-[450px] w-full bg-slate-900 overflow-hidden flex-shrink-0">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-40 z-10"
           style={{
@@ -238,48 +259,18 @@ export default function ProductListPage() {
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f1f38] via-[#0f1f38]/50 to-transparent z-20"></div>
 
-        <div
-          className="absolute top-0 right-0 w-full h-full pointer-events-none z-25 opacity-20"
-          style={{
-            backgroundImage: "url('/images/background-product.png')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center right",
-            backgroundSize: "cover",
-          }}
-        ></div>
-
         <div className="relative z-30 h-full flex flex-col items-center justify-center text-center px-4 pt-10">
-          <h1 className="text-hijau-lime text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-wide drop-shadow-md">
+          <h1 className="text-hijau-lime text-3xl sm:text-4xl md:text-6xl font-bold mb-3 tracking-wide drop-shadow-md">
             Our Products
           </h1>
-          <p className="text-sky-100 text-sm md:text-lg max-w-xl drop-shadow-sm leading-relaxed">
+          <p className="text-sky-100 text-base md:text-xl max-w-xl drop-shadow-sm leading-relaxed">
             {t.descPart1} <br className="hidden md:block" />
             {t.descPart2}
           </p>
         </div>
       </div>
 
-      <div
-        className="absolute bottom-0 -left-[150px] md:-left-[350px] w-[600px] h-[350px] md:w-[800px] md:h-[800px] pointer-events-none z-0 opacity-50"
-        style={{
-          backgroundImage: "url('/images/ornamen-bawah-product.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center left",
-          backgroundSize: "contain",
-        }}
-      ></div>
-
-      <div
-        className="absolute top-0 -right-[150px] md:-right-[350px] w-[600px] h-[350px] md:w-[800px] md:h-[800px] pointer-events-none z-0 opacity-50"
-        style={{
-          backgroundImage: "url('/images/ornamen-bawah-product.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center right",
-          backgroundSize: "contain",
-        }}
-      ></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 w-full flex-grow">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:sticky md:top-24 h-fit md:self-start w-full md:w-auto">
             <FilterSidebar
@@ -303,7 +294,7 @@ export default function ProductListPage() {
                 <p className="text-sky-200">{t.noProduct}</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

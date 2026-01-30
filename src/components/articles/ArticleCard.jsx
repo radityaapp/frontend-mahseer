@@ -28,7 +28,7 @@ export default function ArticleCard({ article }) {
       to={`/articles/${article.slug}`}
       className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg border border-sky-100/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-full"
     >
-      <div className="relative h-56 overflow-hidden bg-slate-100">
+      <div className="relative h-48 sm:h-56 md:h-60 overflow-hidden bg-slate-100">
         <img
           src={imageUrl}
           alt={article.title}
@@ -37,22 +37,22 @@ export default function ArticleCard({ article }) {
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
 
-        <div className="absolute top-4 left-4 bg-[#0B1A2E]/80 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
+        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#0B1A2E]/80 backdrop-blur-sm px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full border border-white/10">
           <span className="text-[10px] font-bold text-hijau-lime uppercase tracking-wider">
             Article
           </span>
         </div>
       </div>
 
-      <div className="flex flex-col flex-grow p-5 md:p-6">
-        <div className="flex items-center gap-4 text-xs text-slate-500 mb-3 font-medium border-b border-slate-100 pb-3">
+      <div className="flex flex-col flex-grow p-4 sm:p-5 md:p-6">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 mb-3 font-medium border-b border-slate-100 pb-3">
           <div className="flex items-center gap-1.5">
-            <Calendar size={14} className="text-hijau-lime" />
-            <span>{dateString}</span>
+            <Calendar size={14} className="text-hijau-lime shrink-0" />
+            <span className="whitespace-nowrap">{dateString}</span>
           </div>
           {article.author && (
             <div className="flex items-center gap-1.5">
-              <User size={14} className="text-hijau-lime" />
+              <User size={14} className="text-hijau-lime shrink-0" />
               <span className="line-clamp-1">{article.author}</span>
             </div>
           )}
@@ -67,10 +67,10 @@ export default function ArticleCard({ article }) {
         </p>
 
         <div className="mt-auto flex justify-end">
-          <span className="px-5 py-2 bg-hijau-lime hover:bg-[#c9c03a] text-[#0B1A2E] text-sm font-bold rounded-full transition-all shadow-sm active:scale-95 flex items-center gap-2 group-hover:gap-3">
+          <span className="px-4 py-1.5 sm:px-5 sm:py-2 bg-hijau-lime hover:bg-[#c9c03a] text-[#0B1A2E] text-xs sm:text-sm font-bold rounded-full transition-all shadow-sm active:scale-95 flex items-center gap-2 group-hover:gap-3">
             {t.seeMore}
             <svg
-              className="w-4 h-4"
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
